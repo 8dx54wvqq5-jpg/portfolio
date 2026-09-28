@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        font-family: "Manrope", sans-serif;
+        color: #101828;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 0.06em;
+      }
+      /* ---- scene 1: the flag ---- */
+      #s1 .card {
+        width: 840px;
+        border: 1px solid #fecdca;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 24px 60px rgba(16, 24, 40, 0.08);
+      }
+      #s1 .badge-row {
+        background: #fef3f2;
+        padding: 30px 40px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      #s1 .dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #d92d20;
+        display: block;
+      }
+      #s1 .badge-label {
+        font-size: 26px;
+        font-weight: 600;
+        color: #d92d20;
+      }
+      #s1 .body {
+        padding: 44px 40px 48px;
+      }
+      #s1 .headline {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 46px;
+        letter-spacing: -0.015em;
+        line-height: 1.15;
+        color: #101828;
+        margin-bottom: 26px;
+      }
+      #s1 .evidence-label {
+        font-size: 18px;
+        color: #72777f;
+        margin-bottom: 8px;
+      }
+      #s1 .evidence-text {
+        font-family: "Manrope", sans-serif;
+        font-size: 26px;
+        line-height: 1.55;
+        color: #4a5565;
+        margin-bottom: 34px;
+      }
+      #s1 .raw {
+        font-size: 17px;
+        color: #74767b;
+      }
+      /* ---- scene 2: override + reason ---- */
+      #s2 .wrap {
+        width: 860px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      #s2 .field-label {
+        font-size: 18px;
+        color: #72777f;
+        margin-bottom: 14px;
+      }
+      #s2 .code-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border: 1px solid #d6e4ff;
+        background: #eff6ff;
+        border-radius: 14px;
+        padding: 26px 30px;
+      }
+      #s2 .check {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #155dfc;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      #s2 .code-text {
+        font-size: 28px;
+        font-weight: 700;
+        color: #101828;
+      }
+      #s2 .code-sub {
+        font-size: 18px;
+        color: #697181;
+        margin-top: 4px;
+      }
+      #s2 .reason-box {
+        border: 1px solid #e2e4e9;
+        border-radius: 14px;
+        background: #fbfcfe;
+        padding: 26px 30px;
+      }
+      #s2 .reason-label {
+        font-size: 16px;
+        color: #5c6472;
+        margin-bottom: 10px;
+      }
+      #s2 .reason-text {
+        font-size: 26px;
+        color: #101828;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      #s2 .caption {
+        font-size: 22px;
+        color: #697181;
+        line-height: 1.6;
+        margin-top: 6px;
+      }
+      #s2 .caption strong {
+        color: #364153;
+      }
+      /* ---- scene 3: confirm ---- */
+      #s3 .wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+      #s3 .confirm-btn {
+        background: #155dfc;
+        color: #ffffff;
+        font-size: 32px;
+        font-weight: 700;
+        border-radius: 16px;
+        padding: 30px 76px;
+        box-shadow: 0 18px 40px rgba(21, 93, 252, 0.28);
+      }
+      #s3 .caption {
+        font-size: 24px;
+        color: #697181;
+        text-align: center;
+        max-width: 640px;
+        line-height: 1.6;
+      }
+      /* ---- scene 4: outro ---- */
+      #s4 .wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 26px;
+        text-align: center;
+      }
+      #s4 .headline {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 58px;
+        letter-spacing: -0.02em;
+        color: #101828;
+        max-width: 720px;
+      }
+      #s4 .subline {
+        font-size: 24px;
+        color: #697181;
+      }
+      #s4 .logo {
+        margin-top: 22px;
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        background: #155dfc;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="19" data-width="1080" data-height="1920">
+      <!-- Scene 1: the flag — 0-4s -->
+      <div id="s1" class="clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="card">
+          <div class="badge-row">
+            <span class="dot"></span>
+            <span class="mono badge-label">LOW</span>
+          </div>
+          <div class="body">
+            <div class="headline">Manual review recommended</div>
+            <div class="mono evidence-label">EVIDENCE</div>
+            <div class="evidence-text">The description supports more than one dispute type.</div>
+            <div class="mono raw">raw &middot; 0.38</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 2: override + log the reason — 4-10s -->
+      <div id="s2" class="clip" data-start="4" data-duration="6" data-track-index="1">
+        <div class="wrap">
+          <div>
+            <div class="mono field-label">DISPUTE REASON CODE</div>
+            <div class="code-row">
+              <span class="check">&#10003;</span>
+              <div>
+                <div class="code-text">12.6.1</div>
+                <div class="code-sub">Duplicate processing</div>
+              </div>
+            </div>
+          </div>
+          <div class="reason-box">
+            <div class="mono reason-label">REASON FOR OVERRIDE</div>
+            <div class="reason-text">Same ride, billed twice</div>
+          </div>
+          <div class="caption">Overrides require a reason. <strong>That's evidence.</strong></div>
+        </div>
+      </div>
+
+      <!-- Scene 3: confirm — 10-15s -->
+      <div id="s3" class="clip" data-start="10" data-duration="5" data-track-index="2">
+        <div class="wrap">
+          <div class="confirm-btn">Confirm intake</div>
+          <div class="caption">The only moment anything is committed.</div>
+        </div>
+      </div>
+
+      <!-- Scene 4: outro — 15-19s -->
+      <div id="s4" class="clip" data-start="15" data-duration="4" data-track-index="3">
+        <div class="wrap">
+          <div class="headline">The AI never submits.</div>
+          <div class="mono subline">It proposes. A person decides.</div>
+          <div class="logo">A</div>
+        </div>
+      </div>
+
+      <audio
+        id="bg-music"
+        data-start="0"
+        data-duration="19"
+        data-track-index="10"
+        src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"
+      ></audio>
+      <audio id="sfx-code" data-start="4.5" data-duration="0.3" data-track-index="11" data-volume="0.55" src="assets/sfx/ui/click1.ogg"></audio>
+      <audio id="sfx-reason" data-start="5.6" data-duration="0.3" data-track-index="12" data-volume="0.4" src="assets/sfx/interface/click_002.ogg"></audio>
+      <audio id="sfx-confirm" data-start="13.0" data-duration="0.5" data-track-index="13" data-volume="0.7" src="assets/sfx/interface/drop_002.ogg"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Scene 1 — the flag (0-4s)
+      tl.fromTo("#s1 .card", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0);
+      tl.to("#s1 .card", { opacity: 0, y: -12, duration: 0.35, ease: "power2.in" }, 3.55);
+
+      // Scene 2 — override + reason (4-10s)
+      tl.fromTo("#s2 .wrap", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 4.0);
+      tl.fromTo("#s2 .code-row", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.5);
+      tl.fromTo("#s2 .check", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 4.55);
+      tl.fromTo("#s2 .reason-box", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, 5.3);
+      tl.fromTo(
+        "#s2 .reason-text",
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 0.8, ease: "none" },
+        5.6
+      );
+      tl.fromTo("#s2 .caption", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 6.5);
+      tl.to("#s2 .wrap", { opacity: 0, duration: 0.35, ease: "power2.in" }, 9.55);
+
+      // Scene 3 — confirm (10-15s)
+      tl.fromTo("#s3 .wrap", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 10.0);
+      tl.to("#s3 .confirm-btn", { scale: 0.94, duration: 0.12, ease: "power2.in" }, 13.0);
+      tl.to("#s3 .confirm-btn", { scale: 1, duration: 0.2, ease: "power2.out" }, 13.12);
+      tl.to(
+        "#s3 .confirm-btn",
+        { boxShadow: "0 22px 50px rgba(21,93,252,0.45)", duration: 0.3, ease: "power2.out" },
+        13.0
+      );
+      tl.to("#s3 .wrap", { opacity: 0, duration: 0.35, ease: "power2.in" }, 14.55);
+
+      // Scene 4 — outro (15-19s)
+      tl.fromTo("#s4 .headline", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 15.0);
+      tl.fromTo("#s4 .subline", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 15.6);
+      tl.fromTo("#s4 .logo", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 16.3);
+
+      // flat bed, gentle swell into the confirm beat, fade toward the outro hold
+      tl.set("#bg-music", { volume: 0.26 }, 0);
+      tl.fromTo("#bg-music", { volume: 0.22 }, { volume: 0.3, duration: 2.5, ease: "none" }, 11.5);
+      tl.to("#bg-music", { volume: 0.14, duration: 1.5, ease: "none" }, 17.3);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

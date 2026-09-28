@@ -1,0 +1,2 @@
+Introducing AI-Assisted Dispute Intake: a number tells you nothing, a label tells you what to do.
+The AI proposes. A person overrides, logs the reason, and hits confirm — the only moment anything is committed.
