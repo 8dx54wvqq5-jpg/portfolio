@@ -129,7 +129,7 @@
         <div data-sel="ai-dispute-intake" data-reveal="1" style="position: relative; background: #FFFFFF; border: 1px solid #E2E4E9; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(16,24,40,0.05); margin-bottom: 48px; cursor: pointer;">
           <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; height: 420px;">
             <div style="overflow: hidden; border-right: 1px solid #ECEDF1; background: #0B0B0B;">
-              <img data-zoom="1" src="assets/ai-intake-hero.svg" alt="AI-Assisted Dispute Intake, Fiserv" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1); transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);">
+              <video data-media="1" data-io-play="1" aria-label="Walkthrough of the AI intake: the AI pre-fills dispute fields with confidence labels and the agent confirms them" src="assets/ai-intake-brag.mp4" poster="assets/ai-intake-brag.jpg" muted loop playsinline preload="metadata" style="display: block; width: 100%; height: 100%; object-fit: contain; transform: scale(1); transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);"></video>
             </div>
             <div style="padding: 40px;">
               <h2 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px;">AI-Assisted Dispute Intake</h2>
@@ -146,6 +146,7 @@
                 <div style="display: flex; justify-content: space-between;"><span style="color: #9AA0AC;">every decision</span><span style="color: #364153;">audited</span></div>
               </div>
               <span style="font-size: 14px; font-weight: 800; color: #155DFC;">Open case study <span data-arr="1" style="display: inline-block; transition: transform 0.3s;">→</span></span>
+              <span data-try="/ai-dispute-intake#s4-5" role="link" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px; margin-left: 16px; font-size: 13px; font-weight: 800; color: #FFFFFF; background: #155DFC; border-radius: 8px; padding: 7px 12px;"><span aria-hidden="true">▶</span> Try the prototype</span>
             </div>
           </div>
         </div>
@@ -215,7 +216,7 @@
             </div>
             <div style="padding: 40px;">
               <h2 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px;">CPQ</h2>
-              <p style="font-size: 14.5px; line-height: 1.7; color: #4A5565; margin: 0 0 20px;">Research-led redesign of Zywave's enterprise quoting platform, design system from scratch, measured against metrics defined before design started.</p>
+              <p style="font-size: 14.5px; line-height: 1.7; color: #4A5565; margin: 0 0 20px;">Research-led redesign of Zywave's quoting platform for 500+ brokers, built inside the existing design system and measured against metrics agreed before design started.</p>
               <div style="display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px;">
                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #364153; border: 1px solid #D5D8DF; border-radius: 999px; padding: 4px 10px;">Enterprise</span>
                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #364153; border: 1px solid #D5D8DF; border-radius: 999px; padding: 4px 10px;">SaaS</span>
@@ -223,7 +224,7 @@
               </div>
               <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #4A5565; display: grid; gap: 7px; margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #F1F2F5; padding-bottom: 7px;"><span style="color: #9AA0AC;">quote time</span><span style="color: #00825A;">18 → 10 min</span></div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #F1F2F5; padding-bottom: 7px;"><span style="color: #9AA0AC;">pricing errors</span><span style="color: #00825A;">↓ from 28%</span></div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #F1F2F5; padding-bottom: 7px;"><span style="color: #9AA0AC;">brokers</span><span style="color: #00825A;">500+</span></div>
                 <div style="display: flex; justify-content: space-between;"><span style="color: #9AA0AC;">spreadsheets</span><span style="color: #00825A;">retired</span></div>
               </div>
               <span style="font-size: 14px; font-weight: 800; color: #155DFC;">Open case study <span data-arr="1" style="display: inline-block; transition: transform 0.3s;">→</span></span>
@@ -375,10 +376,29 @@ class Component extends DCLogic {
     }, { threshold: 0.1 });
     reveals.forEach((el) => io.observe(el));
 
+    document.querySelectorAll("[data-try]").forEach((el) => {
+      if (el.dataset.bound) return;
+      el.dataset.bound = "1";
+      const go = (e) => { e.preventDefault(); e.stopPropagation(); window.location.href = el.getAttribute("data-try"); };
+      el.addEventListener("click", go);
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") go(e); });
+    });
+
+    const vids = Array.from(document.querySelectorAll("video[data-io-play]"));
+    if (vids.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const vio = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) en.target.play().catch(() => {});
+          else en.target.pause();
+        });
+      }, { threshold: 0.25 });
+      vids.forEach((v) => vio.observe(v));
+    }
+
     document.querySelectorAll("[data-sel]").forEach((wrap) => {
       const key = wrap.getAttribute("data-sel");
       const label = document.querySelector('[data-lab="' + key + '"]');
-      const img = wrap.querySelector("[data-zoom]");
+      const img = wrap.querySelector("[data-zoom], [data-media]");
       const arr = wrap.querySelector("[data-arr]");
       wrap.addEventListener("mouseenter", () => {
         wrap.style.outline = "2px solid #155DFC";
@@ -414,7 +434,7 @@ class Component extends DCLogic {
     const headEls = Array.from(document.querySelectorAll("h1, h2")).filter((el) => parseFloat(el.style.fontSize) >= 36);
     headEls.forEach((el) => { if (!el.getAttribute("data-fs")) el.setAttribute("data-fs", el.style.fontSize); });
     const cardGrids = Array.from(document.querySelectorAll("[style]")).filter((el) => el.style.height === "420px");
-    const cardImgs = Array.from(document.querySelectorAll("img[data-zoom]"));
+    const cardImgs = Array.from(document.querySelectorAll("img[data-zoom], video[data-media]"));
     const applyNarrow = () => {
       const narrow = window.innerWidth < 880;
       gridEls.forEach((el) => {

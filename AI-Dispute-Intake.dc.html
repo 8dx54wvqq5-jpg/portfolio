@@ -141,6 +141,7 @@
             <h1 data-reveal="1" style="font-size: 48px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 22px; max-width: 20ch; text-wrap: pretty;">AI-Assisted Dispute Intake</h1>
             <p data-reveal="2" style="font-size: 18px; line-height: 1.65; color: #101828; font-weight: 600; margin: 0 0 18px; max-width: 60ch;">I redesigned a regulated workflow so AI could accelerate intake without weakening human accountability.</p>
             <p data-reveal="2" style="font-size: 16px; line-height: 1.7; color: #4A5565; margin: 0; max-width: 64ch;">AI-Assisted Dispute Intake was an LLM-supported pilot inside Fiserv's Disputes Workspace. The model pre-filled dispute attributes, each field carried a plain confidence cue, and the agent accepted or corrected the result. The audit log recorded both sides of the decision: what the AI suggested and what the human chose. That made the flow defensible under FCBA and Reg E, and it showed the team where the model was trusted, corrected, or overconfident.</p>
+            <a href="#s4-5" data-reveal="2" style="display: inline-flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 28px; background: #155DFC; color: #FFFFFF; font-size: 15px; font-weight: 800; padding: 13px 20px; border-radius: 10px; text-decoration: none; box-shadow: 0 8px 20px -8px rgba(21,93,252,0.55);"><span aria-hidden="true">▶</span> Try the interactive prototype <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; opacity: 0.85;">90 sec · you play the agent</span></a>
           </div>
           <div data-reveal="2" style="padding: 4px 64px 0;">
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; border-top: 1px solid #ECEDF1; padding-top: 32px;">
@@ -506,6 +507,7 @@
       <style>
         @keyframes ptRowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         @keyframes ptPulse { 0% { box-shadow: 0 0 0 0 rgba(26,86,219,0.35); } 70% { box-shadow: 0 0 0 10px rgba(26,86,219,0); } 100% { box-shadow: 0 0 0 0 rgba(26,86,219,0); } }
+        #s4-5 { scroll-margin-top: 64px; }
         #s4-5 .pt-mobile { display: none; }
         @media (max-width: 880px) {
           #s4-5 .pt-desktop { display: none; }
@@ -1387,6 +1389,13 @@ class Component extends DCLogic {
       el.style.transitionDelay = (i * 80) + "ms";
       io.observe(el);
     });
+
+    // ---- deep link: /ai-dispute-intake#s4-5 lands on the prototype once content renders ----
+    if (!window._pfHashDone && window.location.hash) {
+      window._pfHashDone = true;
+      const target = document.getElementById(window.location.hash.slice(1));
+      if (target) setTimeout(() => target.scrollIntoView({ block: "start" }), 300);
+    }
 
     // ---- section nav (click) ----
     document.querySelectorAll("[data-nav]").forEach((row) => {

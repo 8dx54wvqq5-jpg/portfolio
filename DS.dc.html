@@ -103,6 +103,7 @@
     <div data-nav="s6" style="display: flex; align-items: center; gap: 8px; padding: 5px 16px; cursor: pointer; color: #364153; font-size: 12.5px; font-weight: 600;" style-hover="background: #F4F5F7;"><span style="color: #B7BCC7; font-size: 11px;">◇</span> 06 · Before / After</div>
     <div data-nav="s7" style="display: flex; align-items: center; gap: 8px; padding: 5px 16px; cursor: pointer; color: #364153; font-size: 12.5px; font-weight: 600;" style-hover="background: #F4F5F7;"><span style="color: #B7BCC7; font-size: 11px;">◇</span> 07 · Challenges</div>
     <div data-nav="s8" style="display: flex; align-items: center; gap: 8px; padding: 5px 16px; cursor: pointer; color: #364153; font-size: 12.5px; font-weight: 600;" style-hover="background: #F4F5F7;"><span style="color: #B7BCC7; font-size: 11px;">◇</span> 08 · Impact</div>
+    <div data-nav="s8-5" style="display: flex; align-items: center; gap: 8px; padding: 5px 16px 5px 30px; cursor: pointer; color: #155DFC; font-size: 12px; font-weight: 700;" style-hover="background: #F4F5F7;"><span style="color: #155DFC; font-size: 11px;">▸</span> 08.5 · Next: AI-ready</div>
     <div data-nav="s9" style="display: flex; align-items: center; gap: 8px; padding: 5px 16px; cursor: pointer; color: #364153; font-size: 12.5px; font-weight: 600;" style-hover="background: #F4F5F7;"><span style="color: #B7BCC7; font-size: 11px;">◇</span> 09 · Learnings</div>
   </div>
 
@@ -653,6 +654,41 @@ tokens.control.button.default = { height: 36, paddingInline: 16 };</pre>
               <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6A7282;">from day one of launch</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- 08.5 · NEXT: AN AI-READY SYSTEM (in progress) -->
+      <section id="s8-5" data-frame="s8-5" data-screen-label="DS / Next AI-ready" style="margin-top: 64px;">
+        <div style="margin-bottom: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6A7282;">▸ 08.5 · Next: AI-ready</span></div>
+        <div style="background: #FFFFFF; border: 1px solid #E2E4E9; border-radius: 12px; box-shadow: 0 1px 3px rgba(16,24,40,0.05); padding: 64px;">
+          <div data-reveal="0" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #155DFC;">WHAT I'M WORKING ON NOW</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #B45309; background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 999px; padding: 3px 10px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #F59E0B;"></span>IN PROGRESS</span>
+          </div>
+          <h2 data-reveal="1" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 16px; max-width: 24ch;">A design system that AI can read too</h2>
+          <p data-reveal="2" style="font-size: 16px; line-height: 1.7; color: #4A5565; margin: 0 0 36px; max-width: 64ch;">A design system used to have two audiences: designers and engineers. Now it has a third, the AI tools that generate screens from it. So I've started restructuring the 360 Control Figma library, built on this same foundation, so an agent can read the system directly instead of guessing from pixels.</p>
+          <div data-reveal="3" style="display: grid; gap: 22px; margin-bottom: 36px;">
+              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">01</div>
+                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Name things by meaning</div>
+                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Components and layers get semantic names that say what they are for, not what they look like. A person sees a colored pill and gets it; an agent needs to be told it's a status.</p>
+              </div>
+              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">02</div>
+                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Write the why down</div>
+                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Design decisions go into structured documentation an agent can parse. It is also the fix for my own learning below: I didn't document enough of the reasoning the first time.</p>
+              </div>
+              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">03</div>
+                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Give tools a direct line</div>
+                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">I'm evaluating Figma Dev Mode, the API, and MCP access so tools like Claude Code can read the system programmatically, instead of Figma being a human-only source of truth.</p>
+              </div>
+          </div>
+          <div data-reveal="4" style="background: #F8FAFF; border: 1px solid #D6E4FF; border-radius: 12px; padding: 26px 30px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 10px;">THE GAP I'M DESIGNING FOR</div>
+            <p style="font-size: 15px; line-height: 1.7; color: #101828; margin: 0;">AI tools often pick the right tokens and the right components, then assemble them the wrong way. They fall back to generic layouts and skip the system's composition rules. Correct parts don't add up to a correct screen. That's why this work documents how pieces combine, not just what each piece is.</p>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 16px;">early work, no results to report yet</div>
         </div>
       </section>
 
