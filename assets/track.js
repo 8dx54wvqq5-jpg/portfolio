@@ -74,6 +74,34 @@
   window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(check); } }, { passive: true });
 })();
 
+// tracked CTAs: press feedback (matches [data-nav]:active), hover-only arrow
+// nudge (matches the Work cards' arrow), and smooth in-page jumps that land
+// below the fixed toolbar. Reduced motion: tiny press, no nudge, instant jump.
+(function () {
+  if (!document.getElementById('cta-css')) {
+    var s = document.createElement('style');
+    s.id = 'cta-css';
+    s.textContent = [
+      'section[data-frame]{scroll-margin-top:64px}',
+      '[data-track]{transition:transform .14s ease}',
+      '[data-track]:active{transform:scale(0.97)}',
+      '[data-track] .cta-arr{display:inline-block;transition:transform .3s cubic-bezier(0.16,1,0.3,1)}',
+      '@media (hover:hover) and (pointer:fine){[data-track]:hover .cta-arr{transform:translateX(4px)}[data-track]:hover .cta-arr.down{transform:translateY(3px)}}',
+      '@media (prefers-reduced-motion:reduce){[data-track]{transition-duration:.05s}[data-track]:active{transform:scale(0.99)}[data-track]:hover .cta-arr,[data-track]:hover .cta-arr.down{transform:none}}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[data-track][href^="#"]') : null;
+    var target = a && document.getElementById(a.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    history.replaceState(null, '', '#' + target.id);
+  });
+})();
+
 // generic engagement: scroll-to-end + time-on-page for every page that
 // doesn't already have its own bespoke tracking (DWS/360/AI-Intake keep theirs)
 (function () {
