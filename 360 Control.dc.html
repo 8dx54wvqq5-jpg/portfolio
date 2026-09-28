@@ -199,6 +199,17 @@
               <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(22px, 3.2vw, 28px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1.05;">Fiserv-wide</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Design system being adopted</div></div>
             </div>
           </div>
+          <div data-reveal="2" style="padding: 48px 64px 0;">
+            <div style="background: #F8FAFF; border: 1px solid #D6E4FF; border-radius: 12px; padding: 28px 32px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 18px;">THE 30-SECOND VERSION</div>
+              <div style="display: grid; gap: 14px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #E2E8F5; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #101828;">The problem</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #364153; margin: 0;">Four kinds of users worked in a console where navigation followed the backend, critical actions sat deep in grids and menus, and people leaned on walkthroughs and support to get through it. Desjardins had a fixed conversion date.</p></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #E2E8F5; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #101828;">The call I made</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #364153; margin: 0;">I rebuilt the structure around the four roles and built the design system before any screen. I kept AI out of a product where every rule has to behave the same way every time.</p></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #E2E8F5; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #101828;">What happened</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #364153; margin: 0;">Phase 1 shipped by April 2026, ahead of the June conversion deadline, and Desjardins began moving administrators and cardholders over on schedule.</p></div>
+              </div>
+              <a href="#s1" data-track="360 · 30-second summary · read more" style="display: inline-block; margin-top: 20px; font-size: 13.5px; font-weight: 800; color: #155DFC; text-decoration: none;">Read how I got there <span class="cta-arr down">↓</span></a>
+            </div>
+          </div>
           <div data-reveal="2" style="padding: 28px 64px 64px;">
             <img src="assets/c360-hero.png" alt="360 Control, one platform, four roles, zero confusion" style="display: block; width: 100%; height: auto; border: 1px solid #E2E4E9; border-radius: 10px; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.25);">
           </div>
@@ -504,6 +515,15 @@
           <p data-reveal="2" style="font-size: 15.5px; line-height: 1.75; color: #C5CAD3; margin: 0 0 16px; max-width: 70ch;">Everything in 360 Control is strategy-driven: human-defined authorization strategies, configurable spend-control logic, one-to-many rule application, real-time deterministic enforcement. Every outcome traces to a rule a specific administrator defined. These are not AI inferences, they're explicit business rules the system executes predictably.</p>
           <p data-reveal="2" style="font-size: 15.5px; line-height: 1.75; color: #C5CAD3; margin: 0 0 24px; max-width: 70ch;">Knowing when to use AI and when to deliberately avoid it is the more mature design skill. 360 Control isn't limited by the absence of AI, it's made more trustworthy by it. This contrasts directly with my work on Disputes Workspace, where AI assistance was designed around visible reasoning, confidence labels, and human override. Two different domains, two different answers, one principle: the technology serves the trust model, never the other way around.</p>
           <a data-reveal="3" href="/dispute-workspace" style="display: inline-block; color: #7AA5FF; font-size: 14px; font-weight: 700; text-decoration: none; border: 1px solid #3A3F4B; padding: 12px 20px; border-radius: 8px;" style-hover="border-color: #7AA5FF;">Compare: where I did use AI → Disputes Workspace</a>
+          <div data-reveal="3" style="border-top: 1px solid #2A2E37; margin-top: 40px; padding-top: 32px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #86EFAC; margin-bottom: 12px;">WHERE I DID USE AI</div>
+            <p style="font-size: 15.5px; line-height: 1.75; color: #C5CAD3; margin: 0 0 22px; max-width: 70ch;">360 Control has no AI in it, but I used AI to design it.</p>
+            <div style="display: grid; gap: 14px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #2A2E37; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #FFFFFF;">Prototypes people could click</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #C5CAD3; margin: 0;">I explored in Figma, then built interactive prototypes in VS Code with Claude Code. Subject-matter experts clicked through them to check the flow and interactions before engineers started.</p></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #2A2E37; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #FFFFFF;">Mentoring interns</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #C5CAD3; margin: 0;">I mentored interns by writing prompts and design instructions, then reviewing and refining the AI-generated screens with them.</p></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #2A2E37; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #FFFFFF;">Design as a pull request</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #C5CAD3; margin: 0;">I proposed a design pull-request workflow, so design changes could go into the codebase as PRs that engineers review like any other change. It's a proposal, not yet adopted.</p></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -543,7 +563,7 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px;">
             <div data-reveal="1" style="background: #F9FAFB; border: 1px solid #ECEDF1; border-radius: 10px; padding: 24px;">
               <div style="font-size: 21px; font-weight: 800; color: #009966; letter-spacing: -0.01em; margin-bottom: 6px;">Shipped on time</div>
-              <p style="font-size: 13.5px; line-height: 1.65; color: #4A5565; margin: 0;">Meeting the contractual obligation to onboard the launch client on schedule was the primary business outcome. Phase 1 delivered it.</p>
+              <p style="font-size: 13.5px; line-height: 1.65; color: #4A5565; margin: 0;">Phase 1 shipped by April 2026, ahead of the June 2026 conversion deadline, and Desjardins began moving administrators and cardholders over on schedule.</p>
             </div>
             <div data-reveal="2" style="background: #F9FAFB; border: 1px solid #ECEDF1; border-radius: 10px; padding: 24px;">
               <div style="font-size: 21px; font-weight: 800; color: #009966; letter-spacing: -0.01em; margin-bottom: 6px;">Beyond the project</div>
@@ -552,6 +572,13 @@
             <div data-reveal="3" style="background: #F9FAFB; border: 1px solid #ECEDF1; border-radius: 10px; padding: 24px;">
               <div style="font-size: 21px; font-weight: 800; color: #009966; letter-spacing: -0.01em; margin-bottom: 6px;">Trust made visible</div>
               <p style="font-size: 13.5px; line-height: 1.65; color: #4A5565; margin: 0;">Built-in audit visibility turned a compliance requirement into a client trust signal during the bank's security review.</p>
+            </div>
+          </div>
+          <div data-reveal="2" style="margin-bottom: 40px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 16px;">TRADE-OFFS I MADE TO SHIP</div>
+            <div style="display: grid; gap: 14px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #101828;">Report builder, narrowed</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #364153; margin: 0;">A full dynamic report builder didn't fit the timeline. I narrowed it to filters (date, amount, merchant, status, cardholder) and Excel/CSV export to hit the delivery date.</p></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 14px;"><div style="flex: 0 0 160px; font-size: 13px; font-weight: 800; color: #101828;">Program hierarchy, phased</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.6; color: #364153; margin: 0;">The richer program-hierarchy interaction couldn't fit the contractual timeline. I scoped a coherent Phase 1 and kept the fuller model for Phase 2, rather than ship half of it.</p></div>
             </div>
           </div>
           <img data-reveal="2" src="assets/c360-8.png" alt="360 Control, themed operational view" style="display: block; width: 100%; height: auto; border: 1px solid #E2E4E9; border-radius: 10px;">
