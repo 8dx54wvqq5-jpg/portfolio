@@ -21,6 +21,7 @@
     { "source": "/email", "destination": "/index.html" }
   ],
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.abhikant.com" }], "destination": "https://abhikant.com/:path*", "permanent": true },
     { "source": "/DWS.dc.html", "destination": "/dispute-workspace", "permanent": true },
     { "source": "/AI-Dispute-Intake.dc.html", "destination": "/ai-dispute-intake", "permanent": true },
     { "source": "/DS.dc.html", "destination": "/design-system", "permanent": true },
