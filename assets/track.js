@@ -16,6 +16,12 @@
     else if (href.indexOf('resume') !== -1 || href.indexOf('.pdf') !== -1) name = 'Resume · opened';
     if (name && !fired[name]) { fired[name] = 1; window.va && window.va('event', { name: name }); }
   }, true);
+  // named CTAs that aren't plain links (or need a specific name): data-track="Page · what"
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+    var name = el && el.getAttribute('data-track');
+    if (name && !fired[name]) { fired[name] = 1; window.va && window.va('event', { name: name }); }
+  }, true);
 })();
 
 // Cross-document View Transitions: cross-fade between same-origin pages, and
@@ -47,6 +53,25 @@
     '@media (hover:none){[data-tip]::after,.presence-av::after{display:none!important}}'
   ].join('');
   document.head.appendChild(s);
+})();
+
+// deepest case-study section reached, as a Clarity tag for filtering recordings
+// ("reached Impact"). Queries sections on each check because x-dc re-renders
+// rebuild the DOM, so held references go stale.
+(function () {
+  var best = -1, queued = false;
+  function check() {
+    queued = false;
+    var secs = document.querySelectorAll('section[data-screen-label]');
+    for (var i = secs.length - 1; i > best; i--) {
+      if (secs[i].getBoundingClientRect().top < window.innerHeight * 0.6) {
+        best = i;
+        window.clarity && window.clarity('set', 'deepest_section', secs[i].getAttribute('data-screen-label'));
+        break;
+      }
+    }
+  }
+  window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(check); } }, { passive: true });
 })();
 
 // generic engagement: scroll-to-end + time-on-page for every page that
