@@ -151,8 +151,8 @@
             </div>
           </div>
           <!-- Intro video: 22-second 16:9 cut, muted autoplay while on screen -->
-          <div data-reveal="2" style="padding: 48px 64px 0;">
-            <video data-io-play="1" src="assets/ai-intake-intro-16x9.mp4" poster="assets/ai-intake-intro-16x9.jpg" muted loop playsinline controls preload="metadata" aria-label="22-second intro: the AI pre-fills dispute fields with confidence labels and the agent makes the call" style="display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0B0B0B; border: 1px solid #E2E4E9; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.35);"></video>
+          <div style="padding: 48px 64px 0;">
+            <video data-io-play="1" src="assets/ai-intake-intro-16x9.mp4" poster="assets/ai-intake-intro-16x9.jpg" muted loop playsinline controls preload="auto" aria-label="22-second intro: the AI pre-fills dispute fields with confidence labels and the agent makes the call" style="display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0B0B0B; border: 1px solid #E2E4E9; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.35);"></video>
             <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-top: 16px;">
               <p style="flex: 1 1 360px; font-size: 14.5px; line-height: 1.65; color: #4A5565; margin: 0;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-right: 8px;">THE 22-SECOND VERSION</span>The AI fills in the dispute fields and says how sure it is about each one. The agent makes the call. Sound is off by default.</p>
               <a href="#s4-5" data-track="AI Intake · prototype CTA · video" style="flex: 0 0 auto; font-size: 14px; font-weight: 800; color: #155DFC; text-decoration: none;">Now try it yourself <span class="cta-arr">→</span></a>
@@ -1441,9 +1441,13 @@ class Component extends DCLogic {
       document.querySelectorAll("video[data-io-play]").forEach((v) => {
         if (v.dataset.bound) return;
         v.dataset.bound = "1";
+        // x-dc drops the `muted` attribute when it renders, and browsers block
+        // autoplay with sound, so set it as a property before any play()
+        v.muted = true;
+        v.defaultMuted = true;
         new IntersectionObserver((entries) => {
           entries.forEach((en) => { if (en.isIntersecting) v.play().catch(() => {}); else v.pause(); });
-        }, { threshold: 0.4 }).observe(v);
+        }, { threshold: 0.25 }).observe(v);
       });
     }
 
