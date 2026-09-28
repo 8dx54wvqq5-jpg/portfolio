@@ -31,7 +31,7 @@
 <script defer src="/assets/section-rail.js"></script>
 <script defer src="/assets/connect.js"></script>
 <script defer src="/assets/footer.js"></script>
-<script defer src="/assets/chatbot.js?v=20260701f"></script>
+<script defer src="/assets/chatbot.js?v=20260927a"></script>
 <script defer src="/assets/open-pill.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -150,16 +150,12 @@
               <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(22px, 3vw, 28px); font-weight: 800; letter-spacing: -0.02em; color: #101828; line-height: 1.1;">Always auditable</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Every decision recorded and traceable</div></div>
             </div>
           </div>
-          <!-- Intro video: 22-second portrait cut, muted autoplay while on screen -->
+          <!-- Intro video: 22-second 16:9 cut, muted autoplay while on screen -->
           <div data-reveal="2" style="padding: 48px 64px 0;">
-            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px 40px; border: 1px solid #E2E4E9; border-radius: 12px; background: linear-gradient(180deg, #FBFCFE 0%, #F4F7FC 100%); padding: 32px;">
-              <video data-io-play="1" src="assets/ai-intake-brag.mp4" poster="assets/ai-intake-brag.jpg" muted loop playsinline controls preload="metadata" aria-label="22-second intro: the AI pre-fills dispute fields with confidence labels and the agent makes the call" style="flex: 0 0 auto; display: block; width: 100%; max-width: 270px; aspect-ratio: 9 / 16; border-radius: 14px; background: #0B0B0B; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.35); margin: 0 auto;"></video>
-              <div style="flex: 1 1 260px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 12px;">THE 22-SECOND VERSION</div>
-                <p style="font-size: 20px; line-height: 1.45; font-weight: 800; color: #101828; margin: 0 0 12px; letter-spacing: -0.01em;">A number tells an agent nothing. A label tells them what to do.</p>
-                <p style="font-size: 15px; line-height: 1.7; color: #4A5565; margin: 0 0 22px;">The AI reads the cardholder's complaint, fills in the dispute fields, and says how sure it is about each one. The agent makes the call, and nothing is submitted for them. Sound is off by default; turn it on in the player.</p>
-                <a href="#s4-5" data-track="AI Intake · prototype CTA · video" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #155DFC; text-decoration: none;">Now try it yourself <span class="cta-arr">→</span></a>
-              </div>
+            <video data-io-play="1" src="assets/ai-intake-intro-16x9.mp4" poster="assets/ai-intake-intro-16x9.jpg" muted loop playsinline controls preload="metadata" aria-label="22-second intro: the AI pre-fills dispute fields with confidence labels and the agent makes the call" style="display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0B0B0B; border: 1px solid #E2E4E9; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.35);"></video>
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-top: 16px;">
+              <p style="flex: 1 1 360px; font-size: 14.5px; line-height: 1.65; color: #4A5565; margin: 0;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-right: 8px;">THE 22-SECOND VERSION</span>The AI fills in the dispute fields and says how sure it is about each one. The agent makes the call. Sound is off by default.</p>
+              <a href="#s4-5" data-track="AI Intake · prototype CTA · video" style="flex: 0 0 auto; font-size: 14px; font-weight: 800; color: #155DFC; text-decoration: none;">Now try it yourself <span class="cta-arr">→</span></a>
             </div>
           </div>
           <!-- Hero motif: calm system diagram, not a robot -->
@@ -525,8 +521,28 @@
           #s4-5 .pt-desktop { display: none; }
           #s4-5 .pt-mobile { display: block; }
         }
+        @keyframes ptSwapIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+        @keyframes ptCheckPop { 0% { opacity: 0; transform: scale(0.5); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+        /* press feedback: site vocabulary, skipped on buttons that are still locked */
+        #s4-5 .pt-desktop button, #s4-5 .pt-opt { transition: transform 140ms cubic-bezier(0.16,1,0.3,1), background-color 200ms ease, border-color 200ms ease; }
+        #s4-5 .pt-desktop button:not([style*="not-allowed"]):active, #s4-5 .pt-opt:active { transform: scale(0.97); }
+        #s4-5 .pt-field { transition: border-color 200ms ease; }
+        #s4-5 .pt-opt > div:first-child { transition: border-color 150ms ease, background-color 150ms ease; }
+        #s4-5 .pt-status { animation: ptSwapIn 180ms cubic-bezier(0.16,1,0.3,1); }
+        /* completion: the one rare moment, a check pop plus a short stagger */
+        #s4-5 .pt-check { animation: ptCheckPop 420ms cubic-bezier(0.34,1.56,0.64,1) both; }
+        #s4-5 .pt-done > * { animation: ptRowIn 260ms cubic-bezier(0.16,1,0.3,1) both; }
+        #s4-5 .pt-done > :nth-child(2) { animation-delay: 60ms; }
+        #s4-5 .pt-done > :nth-child(3) { animation-delay: 120ms; }
+        #s4-5 .pt-done > :nth-child(4) { animation-delay: 180ms; }
         @media (prefers-reduced-motion: reduce) {
-          #s4-5 [style*="ptRowIn"], #s4-5 [style*="ptPulse"] { animation: none !important; }
+          /* keep the fades that explain state, drop the movement */
+          @keyframes ptRowIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes ptSwapIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes ptCheckPop { from { opacity: 0; } to { opacity: 1; } }
+          #s4-5 [style*="ptPulse"] { animation: none !important; }
+          #s4-5 .pt-desktop button, #s4-5 .pt-opt { transition: transform 50ms linear, background-color 200ms ease, border-color 200ms ease; }
+          #s4-5 .pt-desktop button:not([style*="not-allowed"]):active, #s4-5 .pt-opt:active { transform: scale(0.99); }
         }
         /* The frame inherits the case-study column, far narrower than the 1400px
            design canvas. Shed workspace chrome as the container shrinks. */
@@ -613,7 +629,7 @@
 
                   <!-- guide bar: in flow so it never covers the fields it points at -->
                   <sc-if value="{{ started }}" hint-placeholder-val="{{ false }}">
-                    <div style="flex-shrink: 0; background: #fff; border-bottom: 2px solid #C3D4F8; padding: 12px 24px;">
+                    <div style="flex-shrink: 0; background: #fff; border-bottom: 2px solid #C3D4F8; padding: 12px 24px; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
                         <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #1A56DB; font-weight: 700; white-space: nowrap;">✦ GUIDE · STEP {{ guideStep }} OF 6</div>
                         <div style="font-size: 14px; font-weight: 700; color: #111928;">{{ guideTitle }}</div>
@@ -666,13 +682,13 @@
                         <button onClick="{{ acceptAll }}" style="margin-left: auto; height: 28px; padding: 0 12px; border-radius: 4px; border: 1px solid #C3D4F8; background: #fff; color: #1A56DB; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;">Accept all</button>
                       </div>
                       <sc-if value="{{ acceptAllNote }}" hint-placeholder-val="{{ false }}">
-                        <div style="background: #FFFBEB; border: 1px solid #FACA15; border-radius: 4px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #723B13; animation: ptRowIn 0.25s ease;">
+                        <div style="background: #FFFBEB; border: 1px solid #FACA15; border-radius: 4px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #723B13; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                           <b>Tempting, right?</b> That one-click urge is called <b>automation bias</b>, so the design only lets “Accept all” touch the green fields. The amber and red ones still need your eyes.
                         </div>
                       </sc-if>
 
                       <!-- FIELD: dispute type -->
-                      <div style="background: #fff; border: 1px solid {{ typeBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
+                      <div class="pt-field" style="background: #fff; border: 1px solid {{ typeBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
                         <div class="pt-flabel" style="width: 200px; flex-shrink: 0;">
                           <div style="font-size: 10px; letter-spacing: 1px; color: #9CA3AF; font-weight: 700;">DISPUTE TYPE</div>
                           <div style="font-size: 15px; font-weight: 700; color: #111928; margin-top: 3px;">Duplicate charge</div>
@@ -683,12 +699,12 @@
                           <button onClick="{{ acceptType }}" style="height: 36px; padding: 8px 16px; min-width: 80px; border-radius: 4px; border: none; background: #1A56DB; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">Accept</button>
                         </sc-if>
                         <sc-if value="{{ typeDone }}" hint-placeholder-val="{{ false }}">
-                          <div style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
+                          <div class="pt-status" style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
                         </sc-if>
                       </div>
 
                       <!-- FIELD: amount -->
-                      <div style="background: #fff; border: 1px solid {{ amountBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
+                      <div class="pt-field" style="background: #fff; border: 1px solid {{ amountBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
                         <div class="pt-flabel" style="width: 200px; flex-shrink: 0;">
                           <div style="font-size: 10px; letter-spacing: 1px; color: #9CA3AF; font-weight: 700;">DISPUTED AMOUNT</div>
                           <div style="font-size: 15px; font-weight: 700; color: #111928; margin-top: 3px;">$47.50</div>
@@ -699,12 +715,12 @@
                           <button onClick="{{ acceptAmount }}" style="height: 36px; padding: 8px 16px; min-width: 80px; border-radius: 4px; border: none; background: #1A56DB; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">Accept</button>
                         </sc-if>
                         <sc-if value="{{ amountDone }}" hint-placeholder-val="{{ false }}">
-                          <div style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
+                          <div class="pt-status" style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
                         </sc-if>
                       </div>
 
                       <!-- FIELD: date -->
-                      <div style="background: #fff; border: 1px solid {{ dateBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
+                      <div class="pt-field" style="background: #fff; border: 1px solid {{ dateBorder }}; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 16px;">
                         <div class="pt-flabel" style="width: 200px; flex-shrink: 0;">
                           <div style="font-size: 10px; letter-spacing: 1px; color: #9CA3AF; font-weight: 700;">TRANSACTION DATE</div>
                           <div style="font-size: 15px; font-weight: 700; color: #111928; margin-top: 3px;">Mar 3, 2026</div>
@@ -715,12 +731,12 @@
                           <button onClick="{{ acceptDate }}" style="height: 36px; padding: 8px 16px; min-width: 80px; border-radius: 4px; border: none; background: #1A56DB; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">Accept</button>
                         </sc-if>
                         <sc-if value="{{ dateDone }}" hint-placeholder-val="{{ false }}">
-                          <div style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
+                          <div class="pt-status" style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Accepted ✓</div>
                         </sc-if>
                       </div>
 
                       <!-- FIELD: merchant (MEDIUM) -->
-                      <div style="background: #fff; border: 1px solid {{ merchantBorder }}; border-radius: 6px; margin-bottom: 8px;">
+                      <div class="pt-field" style="background: #fff; border: 1px solid {{ merchantBorder }}; border-radius: 6px; margin-bottom: 8px;">
                         <div style="padding: 14px 18px; display: flex; align-items: center; gap: 16px;">
                           <div class="pt-flabel" style="width: 200px; flex-shrink: 0;">
                             <div style="font-size: 10px; letter-spacing: 1px; color: #9CA3AF; font-weight: 700;">MERCHANT</div>
@@ -735,11 +751,11 @@
                             </sc-if>
                           </sc-if>
                           <sc-if value="{{ merchantDone }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Verified ✓</div>
+                            <div class="pt-status" style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Verified ✓</div>
                           </sc-if>
                         </div>
                         <sc-if value="{{ showEvidence }}" hint-placeholder-val="{{ false }}">
-                          <div style="border-top: 1px solid #E5E7EB; background: #EBF2FF; padding: 12px 18px; animation: ptRowIn 0.25s ease;">
+                          <div style="border-top: 1px solid #E5E7EB; background: #EBF2FF; padding: 12px 18px; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                             <div style="font-size: 10px; letter-spacing: 1.5px; color: #1E429F; font-weight: 700; margin-bottom: 6px;">✦ THE AI'S EVIDENCE. READ THIS BEFORE THE SCORE</div>
                             <div style="font-size: 13px; color: #1E429F; line-height: 1.55;">The card statement reads <span style="font-family: 'JetBrains Mono', monospace; background: #fff; border: 1px solid #C3D4F8; border-radius: 3px; padding: 1px 6px; font-size: 12px;">UBER *TRIP HELP.UBER.CO</span>, a messy “descriptor”, not a clean name. It maps to Uber, but it is not an exact match to a known biller. If you agree it's Uber, verify it. <span style="color: #6B7280;">raw score · 0.64 (kept last, on purpose)</span></div>
                           </div>
@@ -747,7 +763,7 @@
                       </div>
 
                       <!-- FIELD: sub-reason (LOW) -->
-                      <div style="background: #fff; border: 1px solid {{ subBorder }}; border-radius: 6px; margin-bottom: 8px;">
+                      <div class="pt-field" style="background: #fff; border: 1px solid {{ subBorder }}; border-radius: 6px; margin-bottom: 8px;">
                         <div style="padding: 14px 18px; display: flex; align-items: center; gap: 16px;">
                           <div class="pt-flabel" style="width: 200px; flex-shrink: 0;">
                             <div style="font-size: 10px; letter-spacing: 1px; color: #9CA3AF; font-weight: 700;">SUB-REASON CODE</div>
@@ -759,31 +775,31 @@
                             <button onClick="{{ toggleSub }}" style="height: 36px; padding: 8px 16px; min-width: 80px; border-radius: 4px; border: 1px solid #F8B4B4; background: #FDF2F2; color: #9B1C1C; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">Override</button>
                           </sc-if>
                           <sc-if value="{{ subDone }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Overridden ✓</div>
+                            <div class="pt-status" style="font-size: 13px; font-weight: 700; color: #0E9F6E;">Overridden ✓</div>
                           </sc-if>
                         </div>
                         <sc-if value="{{ subOpen }}" hint-placeholder-val="{{ false }}">
-                          <div style="border-top: 1px solid #E5E7EB; background: #F9FAFB; padding: 14px 18px; animation: ptRowIn 0.25s ease;">
+                          <div style="border-top: 1px solid #E5E7EB; background: #F9FAFB; padding: 14px 18px; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                             <div style="font-size: 10px; letter-spacing: 1.5px; color: #6B7280; font-weight: 700; margin-bottom: 10px;">YOUR CALL. WHICH CODE FITS “CHARGED TWICE FOR ONE RIDE”?</div>
                             <div style="display: flex; flex-direction: column; gap: 8px;">
-                              <div onClick="{{ choose104 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b104 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
+                              <div class="pt-opt" onClick="{{ choose104 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b104 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
                                 <div style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid {{ r104 }}; background: {{ f104 }}; box-sizing: border-box;"></div>
                                 <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #111928; width: 60px;">10.4</div>
                                 <div style="font-size: 13px; color: #4B5563;">Fraud, card-absent environment <span style="color: #9CA3AF;">· the AI's guess (raw 0.38)</span></div>
                               </div>
-                              <div onClick="{{ choose1261 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b1261 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
+                              <div class="pt-opt" onClick="{{ choose1261 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b1261 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
                                 <div style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid {{ r1261 }}; background: {{ f1261 }}; box-sizing: border-box;"></div>
                                 <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #111928; width: 60px;">12.6.1</div>
                                 <div style="font-size: 13px; color: #4B5563;">Duplicate processing, same charge billed twice</div>
                               </div>
-                              <div onClick="{{ choose131 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b131 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
+                              <div class="pt-opt" onClick="{{ choose131 }}" style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid {{ b131 }}; border-radius: 4px; padding: 10px 14px; cursor: pointer;">
                                 <div style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid {{ r131 }}; background: {{ f131 }}; box-sizing: border-box;"></div>
                                 <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #111928; width: 60px;">13.1</div>
                                 <div style="font-size: 13px; color: #4B5563;">Merchandise / services not received</div>
                               </div>
                             </div>
                             <sc-if value="{{ subHint }}" hint-placeholder-val="{{ false }}">
-                              <div style="margin-top: 10px; background: #FDF2F2; border: 1px solid #F8B4B4; border-radius: 4px; padding: 8px 12px; font-size: 13px; color: #9B1C1C; animation: ptRowIn 0.2s ease;">Re-read the cardholder: “charged <b>twice</b> for <b>one</b> ride.” One real charge, billed twice. That is <b>duplicate processing</b>.</div>
+                              <div style="margin-top: 10px; background: #FDF2F2; border: 1px solid #F8B4B4; border-radius: 4px; padding: 8px 12px; font-size: 13px; color: #9B1C1C; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">Re-read the cardholder: “charged <b>twice</b> for <b>one</b> ride.” One real charge, billed twice. That is <b>duplicate processing</b>.</div>
                             </sc-if>
                             <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
                               <button onClick="{{ saveSub }}" style="height: 36px; padding: 8px 16px; border-radius: 4px; border: none; background: {{ saveSubBg }}; color: #fff; font-size: 14px; font-weight: 600; cursor: {{ saveSubCursor }}; font-family: inherit;">Save correction</button>
@@ -796,9 +812,9 @@
 
                     <!-- CONFIRMED: the read-back -->
                     <sc-if value="{{ confirmed }}" hint-placeholder-val="{{ false }}">
-                      <div style="animation: ptRowIn 0.3s ease;">
+                      <div class="pt-done">
                         <div style="background: #DEF7EC; border: 1px solid #84E1BC; border-radius: 6px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-                          <div style="width: 36px; height: 36px; border-radius: 50%; background: #0E9F6E; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 17px;">✓</div>
+                          <div class="pt-check" style="width: 36px; height: 36px; border-radius: 50%; background: #0E9F6E; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 17px;">✓</div>
                           <div>
                             <div style="font-size: 15px; font-weight: 700; color: #03543F;">Intake confirmed. Case DIS-8842-013 created</div>
                             <div style="font-size: 13px; color: #046C4E;">Routed to the duplicate-processing queue with the correct code. The Reg E clock starts with clean data.</div>
@@ -877,7 +893,7 @@
                       <div style="border: 1px dashed #3A3F4B; border-radius: 6px; padding: 18px 14px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B7280; line-height: 1.8;">your decisions appear here<br>one row per field</div>
                     </sc-if>
                     <sc-for list="{{ log }}" as="row" hint-placeholder-count="0">
-                      <div style="background: #1D2027; border: 1px solid #2A2E38; border-left: 3px solid {{ row.accent }}; border-radius: 5px; padding: 10px 12px; animation: ptRowIn 0.3s ease;">
+                      <div style="background: #1D2027; border: 1px solid #2A2E38; border-left: 3px solid {{ row.accent }}; border-radius: 5px; padding: 10px 12px; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                         <div style="display: flex; align-items: center; gap: 8px;">
                           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fff;">{{ row.field }}</div>
                           <div style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B7280;">{{ row.time }}</div>
@@ -896,7 +912,7 @@
                       </div>
                     </sc-for>
                     <sc-if value="{{ showOverrideInsight }}" hint-placeholder-val="{{ false }}">
-                      <div style="background: #1E2A45; border: 1px solid #2F4A85; border-radius: 5px; padding: 12px; animation: ptRowIn 0.3s ease;">
+                      <div style="background: #1E2A45; border: 1px solid #2F4A85; border-radius: 5px; padding: 12px; animation: ptRowIn 0.22s cubic-bezier(0.16,1,0.3,1);">
                         <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #9FB6F9; font-weight: 700; margin-bottom: 6px;">✦ SIGNAL DETECTED</div>
                         <div style="font-size: 12px; color: #C9D6F5; line-height: 1.6;">Your override is exactly what the team learns from. One agent correcting 10.4 → 12.6.1 is a data point. A thousand doing it is proof the extraction rule is wrong, and a to-do list for the next model.</div>
                       </div>

@@ -35,7 +35,7 @@
 <script defer src="/assets/connect.js"></script>
 <script defer src="/assets/footer.js"></script>
 <script defer src="/assets/open-pill.js"></script>
-<script defer src="/assets/chatbot.js?v=20260701f"></script>
+<script defer src="/assets/chatbot.js?v=20260927a"></script>
 
 </head>
 <body>
@@ -1368,6 +1368,8 @@ class Component extends DCLogic {
     const plane = document.getElementById("plane");
     const label = document.getElementById("zoom-label");
     if (!plane) return;
+    // an animated jump (minimap, layers, toolbar) takes over from any glide
+    if (durMs && this._inertia) { cancelAnimationFrame(this._inertia); this._inertia = null; }
     plane.style.transition = durMs ? "transform " + durMs + "ms cubic-bezier(0.25,1,0.4,1)" : "none";
     plane.style.transform = "translate(" + this.view.x + "px," + this.view.y + "px) scale(" + this.view.s + ")";
     if (label) label.textContent = Math.round(this.view.s * 100) + "%";
@@ -1714,16 +1716,37 @@ class Component extends DCLogic {
     T(pulse, 9000);
   }
 
-  startInertia() {
+  // Visitor takes the canvas: stop any glide, cancel the entrance/nudge, and
+  // freeze an in-flight fly at its on-screen position so the drag starts there.
+  grab() {
+    if (this._inertia) { cancelAnimationFrame(this._inertia); this._inertia = null; }
+    this._userMoved = true;
+    if (this._entrT) { clearTimeout(this._entrT); this._entrT = null; }
+    const plane = document.getElementById("plane");
+    if (!plane || !plane.style.transition || plane.style.transition === "none") return;
+    const m = new DOMMatrix(getComputedStyle(plane).transform);
+    this.view.x = m.e; this.view.y = m.f; this.view.s = m.a;
+    this.apply(0);
+  }
+
+  // vx/vy in px/ms. Friction is per 16ms but scaled by real frame time, so
+  // 60Hz and 120Hz screens glide the same distance.
+  startInertia(vx, vy) {
     if (this._inertia) cancelAnimationFrame(this._inertia);
-    let vx = this._vx || 0, vy = this._vy || 0;
-    if (Math.abs(vx) < 0.6 && Math.abs(vy) < 0.6) return;
-    const step = () => {
-      vx *= 0.92; vy *= 0.92;
-      this.view.x += vx; this.view.y += vy;
+    if (Math.hypot(vx, vy) < 0.1) return;
+    let last = performance.now();
+    const step = (now) => {
+      const dt = Math.min(64, Math.max(1, now - last)); last = now;
+      const f = Math.pow(0.95, dt / 16);
+      vx *= f; vy *= f;
+      const tx = this.view.x + vx * dt, ty = this.view.y + vy * dt;
+      this.view.x = tx; this.view.y = ty;
       this.clampView();
+      // hit the edge on an axis: stop that axis instead of pushing into the wall
+      if (this.view.x !== tx) vx = 0;
+      if (this.view.y !== ty) vy = 0;
       this.apply(0);
-      if (Math.abs(vx) > 0.2 || Math.abs(vy) > 0.2) {
+      if (Math.hypot(vx, vy) > 0.02) {
         this._inertia = requestAnimationFrame(step);
       } else {
         this._inertia = null;
@@ -1931,10 +1954,12 @@ class Component extends DCLogic {
       // Once per session, reduced-motion opts out above.
       if (!sessionStorage.getItem("pf-canvas-nudged")) {
         sessionStorage.setItem("pf-canvas-nudged", "1");
+        // skip if the visitor already took the canvas; never yank a live drag
         this._timers.push(setTimeout(() => {
+          if (this._userMoved) return;
           const bx = this.view.x;
           this.view.x = bx - 96; this.clampView(); this.apply(560);
-          this._timers.push(setTimeout(() => { this.view.x = bx; this.clampView(); this.apply(760); }, 900));
+          this._timers.push(setTimeout(() => { if (this._userMoved) return; this.view.x = bx; this.clampView(); this.apply(760); }, 900));
         }, 5400));
       }
 
@@ -2032,11 +2057,13 @@ class Component extends DCLogic {
     const pointers = new Map();
     let moved = 0, ox = 0, oy = 0, sx = 0, sy = 0, pinchD = 0;
     let clickTarget = null;
+    let samples = []; // recent pan positions {t,x,y} for release velocity
     vp.addEventListener("pointerdown", (e) => {
       e.preventDefault(); // stop native text-selection drag while panning/dragging cards & stickers
-      if (this._inertia) cancelAnimationFrame(this._inertia);
+      this.grab();
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       moved = 0;
+      samples = [{ t: e.timeStamp, x: e.clientX, y: e.clientY }];
       // record the link target BEFORE pointer capture (target is still correct here)
       clickTarget = e.target ? e.target.closest("a[href]") : null;
       sx = e.clientX; sy = e.clientY; ox = this.view.x; oy = this.view.y;
@@ -2075,8 +2102,8 @@ class Component extends DCLogic {
       }
       const dx = e.clientX - sx, dy = e.clientY - sy;
       moved = Math.max(moved, Math.abs(dx) + Math.abs(dy));
-      this._vx = (this._vx || 0) * 0.6 + (e.movementX || 0) * 0.4;
-      this._vy = (this._vy || 0) * 0.6 + (e.movementY || 0) * 0.4;
+      samples.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
+      while (samples.length > 2 && e.timeStamp - samples[0].t > 100) samples.shift();
       this.view.x = ox + dx; this.view.y = oy + dy;
       this.clampView();
       this.apply(0);
@@ -2137,8 +2164,12 @@ class Component extends DCLogic {
             }
           }
         } else if (wasDrag && !this.reduce) {
-          this.startInertia();
+          // velocity over the last ~80ms; a pause before release means no glide
+          const a = samples[0], b = samples[samples.length - 1];
+          const dt = b ? b.t - a.t : 0;
+          if (dt > 0 && e.timeStamp - b.t < 50) this.startInertia((b.x - a.x) / dt, (b.y - a.y) / dt);
         }
+        samples = [];
         clickTarget = null;
         this.scheduleSpy();
       } else {
@@ -2146,6 +2177,7 @@ class Component extends DCLogic {
         sx = p.x; sy = p.y; ox = this.view.x; oy = this.view.y;
         moved = 0;
         clickTarget = null;
+        samples = [{ t: e.timeStamp, x: p.x, y: p.y }];
       }
     };
     vp.addEventListener("pointerup", endDrag);
@@ -2159,7 +2191,7 @@ class Component extends DCLogic {
     // ---- wheel: scroll pans, ⌘/Ctrl + scroll (or trackpad pinch) zooms gently ----
     vp.addEventListener("wheel", (e) => {
       e.preventDefault();
-      if (this._inertia) cancelAnimationFrame(this._inertia);
+      this.grab();
       if (window.__pfHintUsed) window.__pfHintUsed();
       if (e.ctrlKey || e.metaKey) {
         const rect = vp.getBoundingClientRect();

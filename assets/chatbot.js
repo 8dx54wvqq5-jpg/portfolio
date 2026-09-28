@@ -117,8 +117,12 @@
       '#ab-chat-trigger kbd{background:#1E2128;border:1px solid #2A2E37;border-radius:4px;padding:1px 5px;font-size:10px;color:#6B7280;font-family:"JetBrains Mono",monospace;}',
       '@media (hover:none){#ab-chat-trigger kbd{display:none}}',  /* ⌘K useless on touch */
       /* panel */
-      '#ab-chat-panel{position:fixed;bottom:80px;right:24px;z-index:400;width:min(400px,calc(100vw - 3rem));height:min(520px,calc(100dvh - 7rem));background:#15171C;border:1px solid #2A2E37;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,0.6);display:flex;flex-direction:column;overflow:hidden;transform:translateY(12px) scale(0.97);opacity:0;pointer-events:none;transition:transform .2s cubic-bezier(0.22,1,0.36,1),opacity .18s ease;}',
-      '#ab-chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto;}',
+      '#ab-chat-panel{position:fixed;bottom:80px;right:24px;z-index:400;width:min(400px,calc(100vw - 3rem));height:min(520px,calc(100dvh - 7rem));background:#15171C;border:1px solid #2A2E37;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,0.6);display:flex;flex-direction:column;overflow:hidden;transform:translateY(12px) scale(0.97);opacity:0;pointer-events:none;visibility:hidden;transition:transform .2s cubic-bezier(0.16,1,0.3,1),opacity .18s ease,visibility 0s .2s;}',
+      /* visibility keeps the closed panel out of the tab order; it flips after the fade-out */
+      '#ab-chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto;visibility:visible;transition-delay:0s;}',
+      /* ⌘K / Esc are frequent keyboard actions: open and close without a transition */
+      '#ab-chat-panel.ab-instant{transition:none;}',
+      '@media (prefers-reduced-motion:reduce){#ab-chat-panel{transform:none;transition:opacity .18s ease,visibility 0s .18s;}}',
       /* backdrop */
       '#ab-chat-backdrop{position:fixed;inset:0;z-index:399;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px);display:none;}',
       '#ab-chat-backdrop.open{display:block;}',
@@ -140,7 +144,8 @@
       /* starters */
       '.ab-starters{display:flex;flex-direction:column;gap:6px;}',
       '.ab-starter-intro{color:#9CA3AF;font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.6;margin-bottom:4px;}',
-      '.ab-starter{background:none;border:1px solid #2A2E37;border-radius:10px;color:#9CA3AF;font-family:"JetBrains Mono",monospace;font-size:11px;padding:9px 12px;text-align:left;cursor:pointer;transition:border-color .12s ease,color .12s ease,background .12s ease;}',
+      '.ab-starter{background:none;border:1px solid #2A2E37;border-radius:10px;color:#9CA3AF;font-family:"JetBrains Mono",monospace;font-size:11px;padding:9px 12px;text-align:left;cursor:pointer;transition:border-color .12s ease,color .12s ease,background .12s ease,scale .14s cubic-bezier(0.16,1,0.3,1);}',
+      '.ab-starter:active{scale:0.97;}',
       '.ab-starter:hover{border-color:#155DFC;color:#E7E9EE;background:#1A1D24;}',
       /* bubbles */
       '.ab-msg{display:flex;max-width:88%;}',
@@ -149,6 +154,7 @@
       '.ab-bubble{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.55;}',
       '.ab-msg.user .ab-bubble{background:#155DFC;color:#fff;border-bottom-right-radius:4px;font-family:Manrope,sans-serif;}',
       '.ab-msg.assistant .ab-bubble{background:#1E2128;color:#D1D5DB;border-bottom-left-radius:4px;font-family:Manrope,sans-serif;}',
+      '.ab-msg.error .ab-bubble{background:#241619;color:#FCA5A5;border:1px solid #4B2328;}',
       '.ab-bubble .ab-link{color:#7AB8FF;text-decoration:underline;text-underline-offset:2px;}',
       '.ab-bubble .ab-link:hover{color:#A8D0FF;}',
       '.ab-cta-row{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}',
@@ -163,22 +169,28 @@
       '.ab-dots span:nth-child(2){animation-delay:.15s;}',
       '.ab-dots span:nth-child(3){animation-delay:.3s;}',
       '@keyframes ab-bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}',
+      '@keyframes ab-fade{50%{opacity:.3}}',
+      '@media (prefers-reduced-motion:reduce){.ab-dots span{animation-name:ab-fade;animation-duration:1.2s;}}',
       /* input */
       '.ab-chat-input-row{padding:12px;border-top:1px solid #1E2128;display:flex;gap:8px;align-items:center;}',
       '.ab-chat-input{flex:1;background:#1E2128;border:1px solid #2A2E37;border-radius:10px;color:#E7E9EE;font-family:Manrope,sans-serif;font-size:13px;padding:10px 14px;outline:none;transition:border-color .12s ease;}',
       '.ab-chat-input::placeholder{color:#4B5563;}',
       '.ab-chat-input:focus{border-color:#155DFC;}',
-      '.ab-chat-send{background:#155DFC;border:none;border-radius:10px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;flex-shrink:0;transition:background .12s ease,opacity .12s ease;}',
-      '.ab-chat-send:hover{background:#1246C4;}',
+      '.ab-chat-send{background:#155DFC;border:none;border-radius:10px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;flex-shrink:0;transition:background .12s ease,opacity .12s ease,transform .14s cubic-bezier(0.16,1,0.3,1);}',
+      '.ab-chat-send:hover:not(:disabled){background:#1246C4;}',
+      '.ab-chat-send:active:not(:disabled){transform:scale(0.97);}',
+      '@media (prefers-reduced-motion:reduce){.ab-chat-send:active:not(:disabled){transform:scale(0.99);transition-duration:50ms;}.ab-starter:active{scale:0.99;transition-duration:50ms;}}',
       '.ab-chat-send:disabled{opacity:0.35;cursor:default;}',
       '.ab-chat-send svg{display:block;}',
       /* entrance motion */
       '@keyframes ab-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}',
-      '.ab-msg{animation:ab-rise .3s cubic-bezier(0.22,1,0.36,1) both;}',
-      '.ab-starter-intro{animation:ab-rise .35s cubic-bezier(0.22,1,0.36,1) both;}',
-      '.ab-starter{animation:ab-rise .4s cubic-bezier(0.22,1,0.36,1) both;}',
-      '.ab-starter:nth-child(2){animation-delay:.05s}.ab-starter:nth-child(3){animation-delay:.1s}.ab-starter:nth-child(4){animation-delay:.15s}.ab-starter:nth-child(5){animation-delay:.2s}',
-      '.ab-chat-reset{animation:ab-rise .3s ease both;}',
+      '.ab-msg{animation:ab-rise .24s cubic-bezier(0.16,1,0.3,1) both;}',
+      '.ab-starter-intro{animation:ab-rise .24s cubic-bezier(0.16,1,0.3,1) both;}',
+      '.ab-starter{animation:ab-rise .24s cubic-bezier(0.16,1,0.3,1) both;}',
+      '.ab-starter:nth-child(2){animation-delay:.04s}.ab-starter:nth-child(3){animation-delay:.08s}.ab-starter:nth-child(4){animation-delay:.12s}.ab-starter:nth-child(5){animation-delay:.16s}',
+      '.ab-chat-reset{animation:ab-rise .24s cubic-bezier(0.16,1,0.3,1) both;}',
+      /* re-renders rebuild the list; items already on screen must not replay their entrance */
+      '.ab-still,.ab-still .ab-starter,.ab-still .ab-starter-intro{animation:none;}',
       '@media (prefers-reduced-motion:reduce){.ab-msg,.ab-starter,.ab-starter-intro,.ab-chat-reset{animation:none}}'
     ].join('');
     document.head.appendChild(st);
@@ -196,6 +208,7 @@
   // ── State ────────────────────────────────────────────────────────────────
   var messages = []; // { role, content }
   var busy = false;
+  var shown = 0; // messages already on screen (their entrance should not replay)
 
   // ── DOM ──────────────────────────────────────────────────────────────────
   var backdrop = document.createElement('div');
@@ -299,9 +312,9 @@
   var sendBtn = document.getElementById('ab-chat-send');
 
   // ── Render ───────────────────────────────────────────────────────────────
-  function renderMessages() {
+  function renderMessages(still) {
     if (messages.length === 0) {
-      msgsEl.innerHTML = '<div class="ab-starters"><p class="ab-starter-intro">Hey! Ask me anything about my work, process, or background.</p>' +
+      msgsEl.innerHTML = '<div class="ab-starters' + (still ? ' ab-still' : '') + '"><p class="ab-starter-intro">Hey! Ask me anything about my work, process, or background.</p>' +
         STARTERS.map(function (q) {
           return '<button class="ab-starter">' + q + '</button>';
         }).join('') +
@@ -310,7 +323,7 @@
         '</div>' +
         '</div>';
     } else {
-      msgsEl.innerHTML = '<button class="ab-chat-reset">← Back</button>' +
+      msgsEl.innerHTML = '<button class="ab-chat-reset' + (shown ? ' ab-still' : '') + '">← Back</button>' +
         messages.map(function (m, i) {
           var html = escHtml(m.content);
           var ctas = [];
@@ -328,16 +341,31 @@
                 return '<button class="ab-starter">' + escHtml(q) + '</button>';
               }).join('') + '</div>'
             : '';
-          return '<div class="ab-msg ' + m.role + '"><div class="ab-bubble">' + html + '</div>' + ctaRow + '</div>' + fuRow;
+          var isLast = i === messages.length - 1;
+          var retry = (isLast && m.error) ? '<div class="ab-cta-row"><button class="ab-starter ab-retry">Try again</button></div>' : '';
+          return '<div class="ab-msg ' + m.role + (m.error ? ' error' : '') + (i < shown ? ' ab-still' : '') + '"><div class="ab-bubble">' + html + '</div>' + ctaRow + retry + '</div>' + fuRow;
         }).join('');
     }
+    var last = messages[messages.length - 1];
+    var isNewReply = last && last.role === 'assistant' && shown < messages.length;
+    shown = messages.length;
     msgsEl.scrollTop = msgsEl.scrollHeight;
+    // a long reply lands at its first line, not its last
+    if (isNewReply) {
+      var bubbles = msgsEl.querySelectorAll('.ab-msg');
+      var lastEl = bubbles[bubbles.length - 1];
+      msgsEl.scrollTop = Math.min(msgsEl.scrollTop, lastEl.offsetTop - msgsEl.offsetTop - 12);
+    }
   }
+
+  function syncSend() { sendBtn.disabled = busy || !inputEl.value.trim(); }
 
   function appendTyping() {
     var el = document.createElement('div');
     el.className = 'ab-msg assistant';
     el.id = 'ab-typing';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-label', 'Typing');
     el.innerHTML = '<div class="ab-bubble"><div class="ab-dots"><span></span><span></span><span></span></div></div>';
     msgsEl.appendChild(el);
     msgsEl.scrollTop = msgsEl.scrollHeight;
@@ -385,8 +413,8 @@
     text = (text || '').trim();
     if (!text || busy) return;
     busy = true;
-    sendBtn.disabled = true;
     inputEl.value = '';
+    syncSend();
 
     messages.push({ role: 'user', content: text });
     track('Chat Message Sent', { page: document.title, question: text.slice(0, 120) });
@@ -397,7 +425,8 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messages: messages.map(function (m) { return { role: m.role, content: m.content }; }),
+        // error bubbles are UI only; never send them back as conversation history
+        messages: messages.filter(function (m) { return !m.error; }).map(function (m) { return { role: m.role, content: m.content }; }),
         pageContext: {
           path: location.pathname,
           title: document.title,
@@ -405,11 +434,14 @@
         }
       })
     })
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        // a non-JSON body (e.g. a gateway timeout page) is a server error, not a parse error
+        return r.json().catch(function () { return { error: 'HTTP ' + r.status }; });
+      })
       .then(function (data) {
         removeTyping();
         if (data.error) {
-          messages.push({ role: 'assistant', content: 'Error: ' + data.error + (data.detail ? ', ' + data.detail.slice(0, 120) : '') });
+          messages.push({ role: 'assistant', content: 'Error: ' + data.error + (data.detail ? ', ' + data.detail.slice(0, 120) : ''), error: true });
         } else {
           // peel the FOLLOWUPS line off the reply into tappable chips
           var reply = data.reply || '(empty response)';
@@ -427,12 +459,12 @@
       })
       .catch(function (err) {
         removeTyping();
-        messages.push({ role: 'assistant', content: 'Network error, ' + (err.message || 'try again?') });
+        messages.push({ role: 'assistant', content: 'Network error, ' + (err.message || 'try again?'), error: true });
         renderMessages();
       })
       .finally(function () {
         busy = false;
-        sendBtn.disabled = false;
+        syncSend();
         inputEl.focus();
       });
   }
@@ -441,19 +473,26 @@
   var isOpen = false;
   var openedAt = 0;
   var messagesAtOpen = 0;
+  var returnFocus = null;
 
-  function open() {
+  // instant = keyboard-initiated (⌘K / Esc): no panel transition, no entrance replay
+  function open(instant) {
     isOpen = true;
     openedAt = Date.now();
     messagesAtOpen = messages.filter(function (m) { return m.role === 'user'; }).length;
     track('Chat Opened', { page: document.title });
+    returnFocus = document.activeElement;
+    panel.classList.toggle('ab-instant', !!instant);
     panel.classList.add('open');
     backdrop.classList.add('open');
-    renderMessages();
-    setTimeout(function () { inputEl.focus(); }, 120);
+    shown = messages.length; // history already seen: don't replay it
+    renderMessages(instant);
+    syncSend();
+    if (instant) inputEl.focus();
+    else setTimeout(function () { inputEl.focus(); }, 120);
   }
 
-  function close() {
+  function close(instant) {
     isOpen = false;
     var sentThisSession = messages.filter(function (m) { return m.role === 'user'; }).length - messagesAtOpen;
     var secondsOpen = Math.round((Date.now() - openedAt) / 1000);
@@ -468,14 +507,21 @@
         window.clarity('set', 'chat_message_count', String(sentThisSession));
       }
     } catch (e) {}
+    panel.classList.toggle('ab-instant', !!instant);
     panel.classList.remove('open');
     backdrop.classList.remove('open');
+    // hand focus back to whatever opened the chat (trigger pill or page)
+    if (panel.contains(document.activeElement)) {
+      if (returnFocus && returnFocus !== document.body && returnFocus.focus) returnFocus.focus({ preventScroll: true });
+      else document.activeElement.blur();
+    }
   }
 
   // ── Events ───────────────────────────────────────────────────────────────
   trigger.addEventListener('click', function () { isOpen ? close() : open(); });
-  backdrop.addEventListener('click', close);
-  panel.querySelector('.ab-chat-close').addEventListener('click', close);
+  backdrop.addEventListener('click', function () { close(); });
+  panel.querySelector('.ab-chat-close').addEventListener('click', function () { close(); });
+  inputEl.addEventListener('input', syncSend);
 
   sendBtn.addEventListener('click', function () { send(inputEl.value); });
   inputEl.addEventListener('keydown', function (e) {
@@ -484,13 +530,23 @@
 
   // starter buttons + reset (delegated — re-rendered each time)
   msgsEl.addEventListener('click', function (e) {
+    // retry: drop the error and resend the question that failed
+    if (e.target.closest('.ab-retry')) {
+      if (busy) return;
+      messages.pop();
+      var failed = messages.pop();
+      shown = messages.length;
+      if (failed && failed.role === 'user') send(failed.content);
+      return;
+    }
     var btn = e.target.closest('.ab-starter');
     if (btn) { send(btn.textContent); return; }
     var reset = e.target.closest('.ab-chat-reset');
     if (reset) {
       messages = [];
+      shown = 0;
       busy = false;
-      sendBtn.disabled = false;
+      syncSend();
       renderMessages();
     }
   });
@@ -499,8 +555,8 @@
   document.addEventListener('keydown', function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
-      isOpen ? close() : open();
+      isOpen ? close(true) : open(true);
     }
-    if (e.key === 'Escape' && isOpen) close();
+    if (e.key === 'Escape' && isOpen) close(true);
   });
 })();
