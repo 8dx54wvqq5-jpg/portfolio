@@ -108,6 +108,18 @@
   });
 })();
 
+// deep links to a case-study section (/dispute-workspace#s7) land on it after render
+(function () {
+  function land() {
+    if (window._pfHashDone || !location.hash) return;
+    var t = document.getElementById(location.hash.slice(1));
+    if (!t) return;
+    window._pfHashDone = true;
+    setTimeout(function () { t.scrollIntoView({ block: 'start' }); }, 300);
+  }
+  if (document.readyState === 'complete') land(); else window.addEventListener('load', land);
+})();
+
 // generic engagement: scroll-to-end + time-on-page for every page that
 // doesn't already have its own bespoke tracking (DWS/360/AI-Intake keep theirs)
 (function () {
