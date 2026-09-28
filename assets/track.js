@@ -87,6 +87,12 @@
       '[data-track]:active{transform:scale(0.97)}',
       '[data-track] .cta-arr{display:inline-block;transition:transform .3s cubic-bezier(0.16,1,0.3,1)}',
       '@media (hover:hover) and (pointer:fine){[data-track]:hover .cta-arr{transform:translateX(4px)}[data-track]:hover .cta-arr.down{transform:translateY(3px)}}',
+      // primary prototype buttons mirror the Connect button (assets/connect.js);
+      // !important because the buttons carry inline backgrounds
+      '[data-track].cta-btn{cursor:pointer;transition:transform .15s cubic-bezier(0.34,1.56,0.64,1),background-color .15s ease}',
+      '[data-track].cta-btn:hover{background:#2B70FF!important;transform:translateY(-1px) scale(1.02)}',
+      '[data-track].cta-btn:active{transform:scale(0.97)}',
+      '@media (prefers-reduced-motion:reduce){[data-track].cta-btn{transition:background-color .15s ease}[data-track].cta-btn:hover,[data-track].cta-btn:active{transform:none}}',
       '@media (prefers-reduced-motion:reduce){[data-track]{transition-duration:.05s}[data-track]:active{transform:scale(0.99)}[data-track]:hover .cta-arr,[data-track]:hover .cta-arr.down{transform:none}}'
     ].join('');
     document.head.appendChild(s);
