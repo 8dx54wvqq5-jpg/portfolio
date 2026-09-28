@@ -129,7 +129,7 @@
         <div data-sel="ai-dispute-intake" data-reveal="1" style="position: relative; background: #FFFFFF; border: 1px solid #E2E4E9; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(16,24,40,0.05); margin-bottom: 48px; cursor: pointer;">
           <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; height: 420px;">
             <div style="overflow: hidden; border-right: 1px solid #ECEDF1; background: #0B0B0B;">
-              <video data-media="1" data-io-play="1" aria-label="Walkthrough of the AI intake: the AI pre-fills dispute fields with confidence labels and the agent confirms them" src="assets/ai-intake-brag.mp4" poster="assets/ai-intake-brag.jpg" muted loop playsinline preload="metadata" style="display: block; width: 100%; height: 100%; object-fit: contain; transform: scale(1); transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);"></video>
+              <img data-zoom="1" src="assets/ai-intake-hero.svg" alt="AI-Assisted Dispute Intake, Fiserv" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1); transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);">
             </div>
             <div style="padding: 40px;">
               <h2 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px;">AI-Assisted Dispute Intake</h2>
@@ -384,21 +384,10 @@ class Component extends DCLogic {
       el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") go(e); });
     });
 
-    const vids = Array.from(document.querySelectorAll("video[data-io-play]"));
-    if (vids.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const vio = new IntersectionObserver((entries) => {
-        entries.forEach((en) => {
-          if (en.isIntersecting) en.target.play().catch(() => {});
-          else en.target.pause();
-        });
-      }, { threshold: 0.25 });
-      vids.forEach((v) => vio.observe(v));
-    }
-
     document.querySelectorAll("[data-sel]").forEach((wrap) => {
       const key = wrap.getAttribute("data-sel");
       const label = document.querySelector('[data-lab="' + key + '"]');
-      const img = wrap.querySelector("[data-zoom], [data-media]");
+      const img = wrap.querySelector("[data-zoom]");
       const arr = wrap.querySelector("[data-arr]");
       wrap.addEventListener("mouseenter", () => {
         wrap.style.outline = "2px solid #155DFC";

@@ -150,6 +150,18 @@
               <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(22px, 3vw, 28px); font-weight: 800; letter-spacing: -0.02em; color: #101828; line-height: 1.1;">Always auditable</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Every decision recorded and traceable</div></div>
             </div>
           </div>
+          <!-- Intro video: 22-second portrait cut, muted autoplay while on screen -->
+          <div data-reveal="2" style="padding: 48px 64px 0;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px 40px; border: 1px solid #E2E4E9; border-radius: 12px; background: linear-gradient(180deg, #FBFCFE 0%, #F4F7FC 100%); padding: 32px;">
+              <video data-io-play="1" src="assets/ai-intake-brag.mp4" poster="assets/ai-intake-brag.jpg" muted loop playsinline controls preload="metadata" aria-label="22-second intro: the AI pre-fills dispute fields with confidence labels and the agent makes the call" style="flex: 0 0 auto; display: block; width: 100%; max-width: 270px; aspect-ratio: 9 / 16; border-radius: 14px; background: #0B0B0B; box-shadow: 0 24px 48px -24px rgba(16,24,40,0.35); margin: 0 auto;"></video>
+              <div style="flex: 1 1 260px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 12px;">THE 22-SECOND VERSION</div>
+                <p style="font-size: 20px; line-height: 1.45; font-weight: 800; color: #101828; margin: 0 0 12px; letter-spacing: -0.01em;">A number tells an agent nothing. A label tells them what to do.</p>
+                <p style="font-size: 15px; line-height: 1.7; color: #4A5565; margin: 0 0 22px;">The AI reads the cardholder's complaint, fills in the dispute fields, and says how sure it is about each one. The agent makes the call, and nothing is submitted for them. Sound is off by default; turn it on in the player.</p>
+                <a href="#s4-5" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #155DFC; text-decoration: none;">Now try it yourself →</a>
+              </div>
+            </div>
+          </div>
           <!-- Hero motif: calm system diagram, not a robot -->
           <div data-reveal="2" style="padding: 36px 64px 64px;">
             <div style="border: 1px solid #E2E4E9; border-radius: 12px; background: linear-gradient(180deg, #FBFCFE 0%, #F4F7FC 100%); padding: 40px; overflow: hidden;">
@@ -1395,6 +1407,17 @@ class Component extends DCLogic {
       window._pfHashDone = true;
       const target = document.getElementById(window.location.hash.slice(1));
       if (target) setTimeout(() => target.scrollIntoView({ block: "start" }), 300);
+    }
+
+    // ---- intro video: autoplay muted only while on screen, never under reduced motion ----
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll("video[data-io-play]").forEach((v) => {
+        if (v.dataset.bound) return;
+        v.dataset.bound = "1";
+        new IntersectionObserver((entries) => {
+          entries.forEach((en) => { if (en.isIntersecting) v.play().catch(() => {}); else v.pause(); });
+        }, { threshold: 0.4 }).observe(v);
+      });
     }
 
     // ---- section nav (click) ----

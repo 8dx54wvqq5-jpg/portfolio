@@ -666,29 +666,38 @@ tokens.control.button.default = { height: 36, paddingInline: 16 };</pre>
             <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #B45309; background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 999px; padding: 3px 10px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #F59E0B;"></span>IN PROGRESS</span>
           </div>
           <h2 data-reveal="1" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 16px; max-width: 24ch;">A design system that AI can read too</h2>
-          <p data-reveal="2" style="font-size: 16px; line-height: 1.7; color: #4A5565; margin: 0 0 36px; max-width: 64ch;">A design system used to have two audiences: designers and engineers. Now it has a third, the AI tools that generate screens from it. So I've started restructuring the 360 Control Figma library, built on this same foundation, so an agent can read the system directly instead of guessing from pixels.</p>
-          <div data-reveal="3" style="display: grid; gap: 22px; margin-bottom: 36px;">
-              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">01</div>
-                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Name things by meaning</div>
-                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Components and layers get semantic names that say what they are for, not what they look like. A person sees a colored pill and gets it; an agent needs to be told it's a status.</p>
-              </div>
-              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">02</div>
-                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Write the why down</div>
-                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Design decisions go into structured documentation an agent can parse. It is also the fix for my own learning below: I didn't document enough of the reasoning the first time.</p>
-              </div>
-              <div style="border-top: 1px solid #ECEDF1; padding-top: 18px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #155DFC; margin-bottom: 8px;">03</div>
-                <div style="font-size: 16px; font-weight: 800; color: #101828; margin-bottom: 6px;">Give tools a direct line</div>
-                <p style="font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">I'm evaluating Figma Dev Mode, the API, and MCP access so tools like Claude Code can read the system programmatically, instead of Figma being a human-only source of truth.</p>
-              </div>
+          <p data-reveal="2" style="font-size: 16px; line-height: 1.7; color: #4A5565; margin: 0 0 40px; max-width: 64ch;">A design system used to have two audiences: designers and engineers. Now it has a third, the AI tools that generate screens from it. Before changing anything, I looked at how teams are actually using AI with their systems this year, then started restructuring the 360 Control Figma library, built on this same foundation, so an agent can read it directly instead of guessing from pixels.</p>
+
+          <div data-reveal="3">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin: 0px 0 16px;">HOW TEAMS ARE USING AI WITH DESIGN SYSTEMS</div>
+            <div style="display: grid; gap: 16px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Agents read the real library</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Figma's MCP server and Code Connect let tools like Claude Code and Cursor pull the actual components, variables, and code mappings. Generated code uses the system instead of imitating a screenshot of it.</p></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Rules written for machines</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Teams keep markdown rules files and agent skills that spell out token names, component choices, and conventions. The agent follows them the way a new designer follows the docs.</p></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Drift checks</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Agents compare design against code, flag hard-coded values where a token belongs, and suggest layer names that match the code components.</p></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Decision models for generative UI</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Newer models like TypeSafe AI's Jev, in early access since September 2026, don't write text. They pick from a fixed set of typed options and return a calibrated confidence. The design system becomes the answer space: the model chooses which component or state fits, and it can only choose what the system allows.</p></div>
+            </div>
           </div>
-          <div data-reveal="4" style="background: #F8FAFF; border: 1px solid #D6E4FF; border-radius: 12px; padding: 26px 30px;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 10px;">THE GAP I'M DESIGNING FOR</div>
-            <p style="font-size: 15px; line-height: 1.7; color: #101828; margin: 0;">AI tools often pick the right tokens and the right components, then assemble them the wrong way. They fall back to generic layouts and skip the system's composition rules. Correct parts don't add up to a correct screen. That's why this work documents how pieces combine, not just what each piece is.</p>
+
+          <div data-reveal="3" style="background: #F8FAFF; border: 1px solid #D6E4FF; border-radius: 12px; padding: 26px 30px; margin: 36px 0;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 10px;">WHY JEV CAUGHT MY ATTENTION</div>
+            <p style="font-size: 15px; line-height: 1.7; color: #101828; margin: 0 0 10px;">Jev's contract is one I've already designed for. On the Disputes GPT pilot, the AI filled a fixed set of fields, said how sure it was about each one, and a person confirmed. Jev turns that pattern into a kind of model. My bet: the teams that get generative UI right will be the ones whose design systems define the choices clearly enough for a model to pick from, and whose interfaces show that confidence to the person who has to decide.</p>
+            <p style="font-size: 13.5px; line-height: 1.6; color: #6A7282; margin: 0;">I haven't built with Jev yet. It's in early access, and I'm following it closely.</p>
           </div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 16px;">early work, no results to report yet</div>
+
+          <div data-reveal="4">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin: 0px 0 16px;">WHAT I'M DOING ON 360 CONTROL</div>
+            <div style="display: grid; gap: 16px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Name things by meaning</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Components and layers get semantic names that say what they are for, not what they look like. A person sees a colored pill and gets it; an agent needs to be told it's a status.</p></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Write the why down</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">Design decisions go into structured documentation an agent can parse. It's also the fix for my own learning below: I didn't document enough of the reasoning the first time.</p></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #ECEDF1; padding-top: 16px;"><div style="flex: 0 0 170px; font-size: 14px; font-weight: 800; color: #101828;">Give tools a direct line</div><p style="flex: 1 1 300px; font-size: 14.5px; line-height: 1.65; color: #364153; margin: 0;">I'm evaluating Figma Dev Mode, the API, and MCP access so tools like Claude Code can read the system programmatically, instead of Figma being a human-only source of truth.</p></div>
+            </div>
+          </div>
+
+          <div data-reveal="4" style="border-left: 2px solid #155DFC; padding: 4px 0 4px 20px; margin-top: 36px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #155DFC; margin-bottom: 8px;">THE GAP I'M DESIGNING FOR</div>
+            <p style="font-size: 15px; line-height: 1.7; color: #101828; margin: 0;">AI tools often pick the right tokens and the right components, then assemble them the wrong way. They fall back to generic layouts and skip the system's composition rules. Correct parts don't add up to a correct screen, so this work documents how pieces combine, not only what each piece is.</p>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 24px; line-height: 1.7;">early work, no results to report yet · sources: <a href="https://www.figma.com/blog/design-systems-ai-mcp/" target="_blank" rel="noopener" style="color: #6A7282;">Figma, design systems and MCP</a> · <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener" style="color: #6A7282;">TypeSafe AI, introducing Jev</a></div>
         </div>
       </section>
 
