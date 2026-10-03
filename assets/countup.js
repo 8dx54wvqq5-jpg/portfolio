@@ -8,7 +8,7 @@
   window.__countupInit = true;
   if (!window.IntersectionObserver || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var DURATION = 900;
+  var DURATION = 1600;
   var counted = {};    // data-countup values that already started
   var seen = new WeakSet();
 
@@ -27,6 +27,19 @@
     requestAnimationFrame(frame);
   }
 
+  // The row is usually still fading in through the page's data-reveal when it
+  // first intersects; counting then finishes before anyone sees it. Wait for
+  // the reveal to settle (max 2.5s), re-finding the node if x-dc rebuilt it.
+  function whenShown(el, cb) {
+    var key = el.getAttribute('data-countup'), t0 = performance.now();
+    (function check() {
+      if (!el.isConnected) el = document.querySelector('[data-countup="' + key + '"]') || el;
+      var box = el.closest('[data-reveal]');
+      if (!box || parseFloat(getComputedStyle(box).opacity) > 0.95 || performance.now() - t0 > 2500) cb(el);
+      else { if (el.textContent !== '0') el.textContent = '0'; requestAnimationFrame(check); }
+    })();
+  }
+
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
@@ -34,7 +47,7 @@
       var key = e.target.getAttribute('data-countup');
       if (counted[key]) { e.target.textContent = key; return; }
       counted[key] = true;
-      run(e.target);
+      whenShown(e.target, run);
     });
   }, { threshold: 0.6 });
 
