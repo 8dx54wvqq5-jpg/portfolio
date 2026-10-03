@@ -33,8 +33,13 @@
     + '.zoom-wrap:hover .zoom-overlay { opacity: 1; background: rgba(8,9,12,0.32); }'
     + '.zoom-overlay-label { font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 600; color: #fff; background: rgba(16,24,40,0.78); padding: 8px 14px; border-radius: 999px; }'
     + '@media (hover: none) { .zoom-overlay { display: none; } }'
-    + '#img-lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(8,9,12,0.92); display: none; align-items: center; justify-content: center; padding: 32px; opacity: 0; transition: opacity 0.18s ease; }'
-    + '#img-lightbox.open { display: flex; opacity: 1; }'
+    + '#img-lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(8,9,12,0.92); display: flex; visibility: hidden; align-items: center; justify-content: center; padding: 32px; opacity: 0; transition: opacity 0.2s ease, visibility 0s linear 0.2s; }'
+    + '#img-lightbox.open { visibility: visible; opacity: 1; transition: opacity 0.2s ease; }'
+    + '#img-lightbox.lb-morph { transition: none; }'
+    // nav panel + chat pill carry page-transition names (assets/vt.js); unname them
+    // during the morph or they draw above the backdrop
+    + 'html.lb-morph [data-leftnav], html.lb-morph #ab-chat-trigger { view-transition-name: none; }'
+    + '::view-transition-group(lb-img) { animation-duration: 0.3s; animation-timing-function: cubic-bezier(0.23,1,0.32,1); }'
     + '#img-lightbox img { max-width: 96vw; max-height: 92vh; object-fit: contain; border-radius: 8px; box-shadow: 0 24px 64px -16px rgba(0,0,0,0.6); }'
     + '#img-lightbox .lb-close { position: absolute; top: 20px; right: 24px; width: 40px; height: 40px; border-radius: 999px; border: none; background: rgba(255,255,255,0.12); color: #fff; font-size: 20px; cursor: pointer; line-height: 1; transition: transform 140ms ease; }'
     + '#img-lightbox .lb-close:hover { background: rgba(255,255,255,0.22); }'
@@ -88,20 +93,47 @@
   setTimeout(wrapZoomables, 1200);
   setTimeout(wrapZoomables, 2500);
 
-  function open(src, alt) {
-    lbImg.src = src; lbImg.alt = alt || '';
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  // Open/close morph: the screenshot grows into the lightbox and shrinks back
+  // (same-document View Transition). Without support, or with reduced motion,
+  // the backdrop just fades (visibility + opacity, so the fade actually runs).
+  var canMorph = !!document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var thumb = null; // screenshot the lightbox opened from
+  function morph(from, update, to) {
+    if (!canMorph || !from || !from.isConnected) { update(); return; }
+    lb.classList.add('lb-morph'); document.documentElement.classList.add('lb-morph');
+    from.style.viewTransitionName = 'lb-img';
+    var t = document.startViewTransition(function () {
+      from.style.viewTransitionName = '';
+      return Promise.resolve(update()).then(function () {
+        if (to && to.isConnected) to.style.viewTransitionName = 'lb-img';
+      });
+    });
+    t.finished.finally(function () {
+      if (to) to.style.viewTransitionName = '';
+      lb.classList.remove('lb-morph'); document.documentElement.classList.remove('lb-morph');
+    });
+  }
+
+  function open(img) {
+    thumb = img;
+    morph(img, function () {
+      lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      return lbImg.decode ? lbImg.decode().catch(function () {}) : null;
+    }, lbImg);
     if (!zoomTracked) { zoomTracked = true; window.va && window.va('event', { name: studyName() + ' · image zoomed' }); }
   }
   function close() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(function () { lbImg.src = ''; }, 200);
+    morph(lbImg, function () {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }, thumb);
+    setTimeout(function () { if (!lb.classList.contains('open')) lbImg.src = ''; }, 400);
   }
   document.addEventListener('click', function (e) {
     var img = e.target && e.target.closest ? e.target.closest(SEL) : null;
-    if (img && !lb.contains(img)) { e.preventDefault(); open(img.currentSrc || img.src, img.alt); return; }
+    if (img && !lb.contains(img)) { e.preventDefault(); open(img); return; }
     if (e.target === lb || e.target === lbClose) close();
   });
   document.addEventListener('keydown', function (e) {

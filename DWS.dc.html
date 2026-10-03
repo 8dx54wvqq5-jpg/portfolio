@@ -23,6 +23,7 @@
 <meta name="twitter:image" content="https://abhikant.com/assets/dws-hero.png">
 <script defer src="/assets/boot.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="/assets/vt.js"></script>
 <script defer src="/assets/track.js"></script>
 <script defer src="/assets/zoom.js"></script>
 <script src="./support.js"></script>
@@ -36,6 +37,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script defer src="/assets/reveal.js"></script>
+<script defer src="/assets/countup.js"></script>
 
 </head>
 <body>
@@ -206,9 +208,9 @@
           <div data-reveal="2" style="padding: 4px 64px 0;">
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 28px; border-top: 1px solid #ECEDF1; padding-top: 32px;">
               <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">4 → 1</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Legacy tools unified</div></div>
-              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−33%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Task steps</div></div>
-              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−37%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Screens per case</div></div>
-              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−50%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Navigation depth</div></div>
+              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−<span data-countup="33">33</span>%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Task steps</div></div>
+              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−<span data-countup="37">37</span>%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Screens per case</div></div>
+              <div style="border-left: 2px solid #155DFC; padding-left: 18px;"><div style="font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: #101828; line-height: 1;">−<span data-countup="50">50</span>%</div><div style="font-size: 12px; font-weight: 500; color: #6A7282; margin-top: 9px; line-height: 1.45;">Navigation depth</div></div>
             </div>
           </div>
           <div data-reveal="2" style="padding: 48px 64px 0;">
@@ -724,15 +726,15 @@
             <h3 style="font-size: 21px; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 12px;">Advanced search</h3>
             <p style="font-size: 15px; line-height: 1.75; color: #364153; margin: 0 0 14px; max-width: 70ch;">The legacy system offered a basic name search: a single field, no parameters, no keyboard support. The redesign replaced it with a composable search where agents type to add parameters (account number, name, phone, SSN), navigate with keyboard shortcuts, and combine criteria to narrow results precisely. Drop-down guidance surfaces valid formats inline so agents never guess what to type.</p>
             <p style="font-size: 14px; line-height: 1.7; color: #4A5565; margin: 0 0 24px; max-width: 70ch;"><strong style="color: #009966;">Result:</strong> agents find cases faster, fewer dead-end searches, no switching to a separate lookup tool.</p>
-            <div class="dws-cmp">
-              <div>
-                <img src="assets/dws-legacy-name-search.png" alt="Legacy name search" style="display: block; width: 100%; height: auto; border: 1px solid #E2E4E9; border-radius: 8px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 8px;">before: basic name search</div>
-              </div>
-              <div>
-                <img src="assets/dws-advanced-search.png" alt="Advanced search with composable parameters" style="display: block; width: 100%; height: auto; border: 1px solid #E2E4E9; border-radius: 8px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 8px;">after: composable parameter search with keyboard navigation</div>
-              </div>
+            <div class="dws-slider" style="--pos: 50%;">
+              <img data-no-zoom src="assets/dws-advanced-search.png" alt="After: advanced search with composable parameters">
+              <div class="dws-slider-before"><img data-no-zoom src="assets/dws-legacy-name-search.png" alt="Before: legacy name search"></div>
+              <span class="dws-slider-line"></span>
+              <span class="dws-slider-tag" style="left: 10px;">before</span>
+              <span class="dws-slider-tag" style="right: 10px;">after</span>
+              <input type="range" min="0" max="100" value="50" aria-label="Drag to compare the legacy name search with the redesigned search">
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9AA0AC; margin-top: 8px;">drag to compare · before: basic name search · after: composable parameter search with keyboard navigation</div>
             </div>
           </div>
 
@@ -1184,15 +1186,8 @@
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #7AA5FF; margin-bottom: 10px;">FINAL REFLECTION</div>
             <p style="font-size: 15.5px; line-height: 1.75; color: #E7E9EE; margin: 0;">Disputes Workspace was the hardest brief I have taken on: strict regulatory limits, one designer, enterprise scale, and teams who could not afford a wrong turn. It set how I work in high-stakes domains: make the system clearer, keep accountability visible, and help the person making the decision move with more confidence.</p>
           </div>
-          <a data-reveal="3" href="/360-control" style="display: flex; justify-content: space-between; align-items: center; border: 1px solid #E2E4E9; border-radius: 12px; padding: 28px 32px; text-decoration: none; color: #101828;" style-hover="border-color: #155DFC; background: #F8FAFF;">
-            <div>
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #9AA0AC; margin-bottom: 6px;">NEXT CASE STUDY</div>
-              <div style="font-size: 22px; font-weight: 800; letter-spacing: -0.01em;">360 Control: rebuilding an issuer console from the IA up</div>
-            </div>
-            <div style="font-size: 28px; color: #155DFC;">→</div>
-          </a>
         </div>
-        <div data-footer="case"></div>
+        <div data-footer="case" data-next="/360-control" data-next-title="360 Control: rebuilding an issuer console from the IA up"></div>
       </section>
 
     </div>
@@ -1429,6 +1424,15 @@ class Component extends DCLogic {
   .dws-cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
   .dws-cmp > div { min-width: 0; }
   .dws-cmp img { width: 100%; height: auto; display: block; }
+  /* before/after wipe: the range input drives --pos; arrow keys work natively */
+  .dws-slider { position: relative; aspect-ratio: 1292 / 770; border: 1px solid #E2E4E9; border-radius: 8px; overflow: hidden; background: #fff; }
+  .dws-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .dws-slider-before { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .dws-slider-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #155DFC; pointer-events: none; }
+  .dws-slider-line::after { content: "\2194"; position: absolute; top: 50%; left: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 999px; background: #155DFC; color: #fff; font-size: 15px; line-height: 32px; text-align: center; box-shadow: 0 4px 12px rgba(21,93,252,0.35); }
+  .dws-slider-tag { position: absolute; top: 10px; padding: 3px 8px; border-radius: 999px; background: rgba(16,24,40,0.7); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; pointer-events: none; }
+  .dws-slider input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .dws-slider:has(input:focus-visible) .dws-slider-line::after { outline: 2px solid #101828; outline-offset: 2px; }
 </style>
 <div id="toast" style="position: fixed; bottom: 70px; left: 50%; transform: translate(-50%, 120px); background: #15171C; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 10px 18px; border-radius: 8px; z-index: 200; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); pointer-events: none; white-space: nowrap;"></div>
 <script>
@@ -1436,6 +1440,7 @@ class Component extends DCLogic {
   var hideT;
   function show(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.style.transform='translate(-50%, 0)';clearTimeout(hideT);hideT=setTimeout(function(){t.style.transform='translate(-50%, 120px)';},2800);}
   document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('[data-toolmsg]');if(el)show(el.getAttribute('data-toolmsg'));});
+  document.addEventListener('input',function(e){var r=e.target.closest&&e.target.closest('.dws-slider input');if(r)r.parentNode.style.setProperty('--pos',r.value+'%');});
 })();
 // referral attribution moved to /assets/track.js (shared across all pages)
 </script>

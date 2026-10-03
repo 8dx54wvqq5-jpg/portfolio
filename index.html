@@ -28,6 +28,7 @@
 <meta name="twitter:image" content="https://abhikant.com/assets/og-card.png">
 <script defer src="/assets/boot.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="/assets/vt.js"></script>
 <script defer src="/assets/track.js"></script>
 <script src="./support.js"></script>
 <script defer src="/assets/studies.js"></script>
@@ -2404,7 +2405,7 @@ class Component extends DCLogic {
       if (f) { f.classList.remove('pf-folder-open'); f.setAttribute('aria-expanded', 'false'); }
     };
     const closeConnect = () => {
-      document.querySelectorAll('.connect-menu').forEach((m) => { m.style.display = 'none'; });
+      document.querySelectorAll('.connect-menu').forEach((m) => { m.classList.remove('is-open'); });
     };
 
     // ---- macOS Writing Folder: keyboard toggle (delegated, survives re-render) ----

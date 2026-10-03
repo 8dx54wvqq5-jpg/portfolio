@@ -19,8 +19,12 @@
       '.connect-btn:hover{background:#2B70FF!important;transform:translateY(-1px) scale(1.02)}' +
       '.connect-btn:active{transform:scale(0.97)}' +
       '.connect-menu a{transition:background .12s ease}' +
+      // menu grows from its button corner; display transitions so it fades out too
+      '.connect-menu{display:none;transform-origin:top right;opacity:0;transform:scale(.96);transition:opacity .18s ease,transform .18s cubic-bezier(0.23,1,0.32,1),display .18s allow-discrete}' +
+      '.connect-menu.is-open{display:flex;opacity:1;transform:none}' +
+      '@starting-style{.connect-menu.is-open{opacity:0;transform:scale(.96)}}' +
       '.connect-menu a:hover{background:#2A2E37}' +
-      '@media (prefers-reduced-motion: reduce){.connect-btn{transition:background .15s ease}.connect-btn:hover,.connect-btn:active{transform:none}}';
+      '@media (prefers-reduced-motion: reduce){.connect-btn{transition:background .15s ease}.connect-btn:hover,.connect-btn:active,.connect-menu{transform:none}}';
     document.head.appendChild(st);
   }
 
@@ -40,7 +44,7 @@
     wrap.style.position = 'relative';
     wrap.innerHTML =
       '<div class="connect-btn" style="background:#155DFC;color:#fff;font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;">Connect <span style="font-size:9px;opacity:0.85;">▾</span></div>' +
-      '<div class="connect-menu" style="position:absolute;top:38px;right:0;background:#15171C;border:1px solid #2A2E37;border-radius:8px;padding:6px;min-width:184px;box-shadow:0 12px 32px rgba(0,0,0,0.45);display:none;flex-direction:column;gap:2px;z-index:200;">' +
+      '<div class="connect-menu" style="position:absolute;top:38px;right:0;background:#15171C;border:1px solid #2A2E37;border-radius:8px;padding:6px;min-width:184px;box-shadow:0 12px 32px rgba(0,0,0,0.45);flex-direction:column;gap:2px;z-index:200;">' +
       menuHTML() + '</div>';
   }
 
@@ -57,13 +61,13 @@
     if (btn) {
       e.stopPropagation();
       var menu = btn.parentNode.querySelector('.connect-menu');
-      var open = menu.style.display === 'flex';
-      for (var i = 0; i < menus.length; i++) menus[i].style.display = 'none';
-      menu.style.display = open ? 'none' : 'flex';
+      var open = menu.classList.contains('is-open');
+      for (var i = 0; i < menus.length; i++) menus[i].classList.remove('is-open');
+      if (!open) menu.classList.add('is-open');
       return;
     }
     if (!e.target.closest('[data-connect]')) {
-      for (var j = 0; j < menus.length; j++) menus[j].style.display = 'none';
+      for (var j = 0; j < menus.length; j++) menus[j].classList.remove('is-open');
     }
   });
 
