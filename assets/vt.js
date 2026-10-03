@@ -15,6 +15,9 @@
     '[data-leftnav]{view-transition-name:ln-panel}',
     '#ab-chat-trigger{view-transition-name:chat-pill}',
     '@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}',
+    // Reduced motion: scroll-in reveals (inline JS, copied per page) show at once,
+    // and the inline page fade-in is dropped.
+    '@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}[style*="pageIn"]{animation:none!important}}',
     // Study card morph (see pageswap/pagereveal below): the clicked card grows
     // into the study's first frame (#s0), Figma-style "frame opens". #s0 is
     // used rather than the hero image, which sits below the fold. Its reveal

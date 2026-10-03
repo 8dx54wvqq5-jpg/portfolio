@@ -392,6 +392,8 @@
     @keyframes hmring { 0%,40% { opacity: 0; transform: scale(.4); } 52%,70% { opacity: 1; transform: scale(1); } 84%,100% { opacity: 0; transform: scale(1.1); } }
     @keyframes hmtick { 0%,44% { stroke-dashoffset: 14; opacity: 0; } 56% { opacity: 1; } 60%,70% { stroke-dashoffset: 0; opacity: 1; } 84%,100% { stroke-dashoffset: 14; opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { .hero-motif .hmd, .hero-motif .hme, .hero-motif .hmn, .hero-motif .hmr, .hero-motif .hmt { animation: none; } .hero-motif .hmd { opacity: .55; transform: scale(1); } .hero-motif .hme { stroke-dashoffset: 0; opacity: 1; } .hero-motif .hmn { opacity: 1; transform: scale(1); } .hero-motif .hmr { opacity: 1; transform: scale(1); } .hero-motif .hmt { stroke-dashoffset: 0; opacity: 1; } }
+    /* reduced motion: stop the always-on loops (inline animations, so match by name) and the page fade */
+    @media (prefers-reduced-motion: reduce) { [style*="heroBob"], [style*="heroRing"], [style*="presencePulse"], [style*="pageIn"], .cFlow, #hint.hint--coach { animation: none !important; } }
 
     /* macOS Writing Folder sticker */
     .pf-folder-sticker { cursor: pointer; }
