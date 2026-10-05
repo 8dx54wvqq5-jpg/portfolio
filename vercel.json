@@ -16,6 +16,7 @@
     { "source": "/studytable", "destination": "/Studytable.dc.html" },
     { "source": "/work", "destination": "/Work.dc.html" },
     { "source": "/about", "destination": "/About.dc.html" },
+    { "source": "/gs-price-chart", "destination": "/prototypes/gs-price-chart.html" },
     { "source": "/resume", "destination": "/index.html" },
     { "source": "/linkedin", "destination": "/index.html" },
     { "source": "/email", "destination": "/index.html" }
