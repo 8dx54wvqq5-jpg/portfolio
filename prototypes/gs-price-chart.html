@@ -69,6 +69,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .seg{display:flex;flex-wrap:wrap;gap:2px;background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:3px}
 .seg button{flex:1 1 auto;border:0;background:transparent;border-radius:6px;padding:7px 8px;font-size:12.5px;font-weight:500;color:var(--muted);transition:background-color 150ms ease,color 150ms ease,transform 120ms var(--ease-out)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.deck-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border:1px solid var(--accent);border-radius:8px;color:var(--accent-strong);background:var(--accent-soft);font-weight:600;font-size:13.5px;text-decoration:none;transition:background-color 150ms ease,transform 120ms var(--ease-out)}
+.deck-link:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.deck-link:hover{background:var(--raised)}}
+.foot-link{color:var(--accent-strong);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .seg button:active{transform:scale(.97)}
 .stack{display:flex;flex-direction:column;gap:4px}
 .opt{display:flex;align-items:center;gap:10px;border:1px solid transparent;background:transparent;border-radius:6px;padding:7px 8px;text-align:left;font-size:13px;transition:background-color 150ms ease}
@@ -189,10 +194,13 @@ thead th{position:sticky;top:0;background:var(--raised);border-bottom:1px solid 
       <h1>One chart, three contexts, no ambiguity about the number.</h1>
       <p>One reusable PriceChart changes density for each host app, and the trust line never hides the market session, data freshness, as-of time, currency or source. After the walkthrough, turn on “Show fixes” to pin each audit gap to the part of the chart that fixes it.</p>
     </div>
-    <div class="seg" role="group" aria-label="Theme" style="min-width:210px">
-      <button type="button" data-theme-btn="system" aria-pressed="true">System</button>
-      <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
-      <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
+    <div class="top-actions">
+      <a class="deck-link" href="https://1drv.ms/p/c/F4ABA2C5ACCDC7C6/IQBzb3O9_i5sSKzgoMaW4eJtAfnUVWO1ev7Hg4iVXO88ni8" target="_blank" rel="noopener noreferrer">View slides <span aria-hidden="true">↗</span><span class="srOnly"> (opens in a new tab)</span></a>
+      <div class="seg" role="group" aria-label="Theme" style="min-width:210px">
+        <button type="button" data-theme-btn="system" aria-pressed="true">System</button>
+        <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
+      </div>
     </div>
   </header>
 
@@ -235,7 +243,7 @@ thead th{position:sticky;top:0;background:var(--raised);border-bottom:1px solid 
       </section>
     </main>
   </div>
-  <footer style="border-top:1px solid var(--rule);padding-top:16px;font-family:var(--f-mono);font-size:12px;color:var(--muted)">Independent design exercise · not affiliated with Goldman Sachs · illustrative data, not production code</footer>
+  <footer style="border-top:1px solid var(--rule);padding-top:16px;font-family:var(--f-mono);font-size:12px;color:var(--muted)">Independent design exercise · not affiliated with Goldman Sachs · illustrative data, not production code · <a class="foot-link" href="https://1drv.ms/p/c/F4ABA2C5ACCDC7C6/IQBzb3O9_i5sSKzgoMaW4eJtAfnUVWO1ev7Hg4iVXO88ni8" target="_blank" rel="noopener noreferrer">Slides<span class="srOnly"> (opens in a new tab)</span></a></footer>
 </div>
 
 <script>
