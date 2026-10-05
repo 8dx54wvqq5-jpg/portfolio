@@ -69,10 +69,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .seg{display:flex;flex-wrap:wrap;gap:2px;background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:3px}
 .seg button{flex:1 1 auto;border:0;background:transparent;border-radius:6px;padding:7px 8px;font-size:12.5px;font-weight:500;color:var(--muted);transition:background-color 150ms ease,color 150ms ease,transform 120ms var(--ease-out)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.deck-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border:1px solid var(--accent);border-radius:8px;color:var(--accent-strong);background:var(--accent-soft);font-weight:600;font-size:13.5px;text-decoration:none;transition:background-color 150ms ease,transform 120ms var(--ease-out)}
+.theme-seg{min-width:210px;align-self:flex-start}
+.deck-link{display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:20px;padding:0 24px;border:0;border-radius:10px;color:var(--bg);background:var(--accent-strong);font-weight:600;font-size:16px;text-decoration:none;box-shadow:0 1px 2px rgba(16,24,40,.12);transition:background-color 150ms ease,transform 120ms var(--ease-out)}
 .deck-link:active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.deck-link:hover{background:var(--raised)}}
+@media (hover:hover) and (pointer:fine){.deck-link:hover{background:var(--ink)}}
+@media (max-width:600px){.deck-link{display:flex;justify-content:center;width:100%}}
 .foot-link{color:var(--accent-strong);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .seg button:active{transform:scale(.97)}
 .stack{display:flex;flex-direction:column;gap:4px}
@@ -193,14 +194,12 @@ thead th{position:sticky;top:0;background:var(--raised);border-bottom:1px solid 
       <div class="eyebrow">Design challenge prototype · GS · illustrative data · not production code</div>
       <h1>One chart, three contexts, no ambiguity about the number.</h1>
       <p>One reusable PriceChart changes density for each host app, and the trust line never hides the market session, data freshness, as-of time, currency or source. After the walkthrough, turn on “Show fixes” to pin each audit gap to the part of the chart that fixes it.</p>
-    </div>
-    <div class="top-actions">
       <a class="deck-link" href="https://1drv.ms/p/c/F4ABA2C5ACCDC7C6/IQBzb3O9_i5sSKzgoMaW4eJtAfnUVWO1ev7Hg4iVXO88ni8" target="_blank" rel="noopener noreferrer">View slides <span aria-hidden="true">↗</span><span class="srOnly"> (opens in a new tab)</span></a>
-      <div class="seg" role="group" aria-label="Theme" style="min-width:210px">
-        <button type="button" data-theme-btn="system" aria-pressed="true">System</button>
-        <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
-        <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
-      </div>
+    </div>
+    <div class="seg theme-seg" role="group" aria-label="Theme">
+      <button type="button" data-theme-btn="system" aria-pressed="true">System</button>
+      <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
+      <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
     </div>
   </header>
 
