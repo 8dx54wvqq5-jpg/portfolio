@@ -50,6 +50,7 @@
     [data-tools-track] { display: flex; gap: 12px; width: max-content; animation: toolsMarquee 28s linear infinite; }
     [data-tools-viewport]:hover [data-tools-track] { animation-play-state: paused; }
     [data-tools-viewport] { overflow: hidden; position: relative; margin: 0 -64px; padding: 0 64px; }
+    @media (max-width: 879px) { [data-tools-viewport] { margin: 0 -22px; padding: 0 22px; } }
     [data-tools-viewport]::before, [data-tools-viewport]::after { content: ""; position: absolute; top: 0; bottom: 0; width: 96px; z-index: 2; pointer-events: none; }
     [data-tools-viewport]::before { left: 0; background: linear-gradient(90deg, #FFFFFF, rgba(255,255,255,0)); }
     [data-tools-viewport]::after { right: 0; background: linear-gradient(270deg, #FFFFFF, rgba(255,255,255,0)); }
